@@ -1,0 +1,133 @@
+<server>
+<pre-install>
+	sudo apt-get install sqlite3 libsqlite3-dev libssl-dev libsystemd-dev
+	
+	cd ~/team6
+	git clone https://github.com/wolfSSL/wolfssl.git
+	cd wolfssl
+	./autogen.sh
+	./configure --enable-keygen --enable-rsa --enable-ecc --enable-ed25519 --enable-des3 CFLAGS="-DWOLFSSL_PUBLIC_MP" --enable-all
+	sudo make install
+
+	cd ~/team6
+	wget https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protobuf-all-3.17.3.tar.gz
+	tar xvf protobuf-all-3.17.3.tar.gz
+	cd protobuf-3.17.3
+	./configure
+	sudo make install
+	sudo ldconfig
+	
+	cd ~/team6
+	git clone https://github.com/shinpark-security/tartan.git
+	cd ~/team6/tartan/firewall
+		sudo ./install.sh
+		sudo sync
+		sudo reboot
+		
+<server install>
+	cd ~/team6/tartan/Common/Protocol/Msg && ./gen.sh
+		cd ~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2
+		python3 step01_pb_to_uff.py
+		rm -rf MTCNN_FaceDetection_TensorRT/
+		git clone https://github.com/PKUZHOU/MTCNN_FaceDetection_TensorRT
+		mv MTCNN_FaceDetection_TensorRT/det* ./mtCNNModels
+	mkdir build; cd build
+		cmake -DCMAKE_BUILD_TYPE=Release ..
+		make -j
+	cd ..
+	sudo ./tartan_install.sh
+
+<start>
+	sudo ./restart_server.sh
+
+
+
+
+
+<Client>
+mfc 개발환경 셋팅
+	릴리즈 폴더에 들어있는 프로그램은 현 시점의 코드를 반영한 exe 파일이 아니라서 재빌드해주어야함
+	Visual Studio 2019
+		"워크로드"에서 "C++를 사용한 데스크톱 개발" 설치
+		"설치 세부 정보" 또는 "개별구성요소"에서 "v142 빌드 도구용 C++ v14.29(16.10) MFC(x86 및 x64)" 설치
+
+opencv install
+	다운로드
+		https://sourceforge.net/projects/opencvlibrary/files/4.5.1/opencv-4.5.1-vc14_vc15.exe/download
+	다운로드 파일 실행하여 C:\ 에 압축풀기
+	경로확인
+		C:\opencv\build\include
+		C:\opencv\build\x64\vc15\lib
+
+
+build wolfssl
+	https://www.wolfssl.com/download/
+	wolfssl-4.7.0.zip 다운로드 & C:\ 에 압축 품
+	wolfssl64.sln 열기
+	client 프로젝트의 "user_settings.h" 파일에 다음 내용 추가
+		#define WOLFSSL_TLS13
+		#define HAVE_TLS_EXTENSIONS
+		#define HAVE_SUPPORTED_CURVES
+		#define HAVE_ECC
+		#define HAVE_HKDF
+		#define HAVE_FFDHE_8192
+		#define WC_RSA_PSS
+		#define LARGE_STATIC_BUFFERS
+
+	Debug 솔루션 빌드 (Ctrl + Shift + B)
+	Release 솔루션 빌드
+	빌드된 경로 확인
+		C:\wolfssl-4.7.0\x64\Debug\
+		C:\wolfssl-4.7.0\x64\Release\
+
+build Google Protocol Buffers
+	cmd 열기
+	cd c:\
+	git clone https://github.com/microsoft/vcpkg.git
+	.\vcpkg\bootstrap-vcpkg.bat
+	cd vcpkg
+	vcpkg install protobuf:x64-windows
+	vcpkg integrate install
+
+	경로 확인
+		C:\vcpkg\installed\x64-windows\lib\
+		C:\vcpkg\installed\x64-windows\include\google\protobuf\
+
+
+client build
+	git clone https://github.com/azzzzzzzzzzzzzzzzzzzzzzzzzzzzz/LGSecurity.git
+	cd ...\LGSecurity\MFCApplication1\Common\Protocol\Msg\
+	C:\vcpkg\installed\x64-windows\tools\protobuf\protoc.exe --cpp_out=. .\protocolLogin.proto
+	MFCApplication1.sln 열기
+	프로젝트 > 속성
+		구성 (Debug)
+			구성속성 > C/C++ > 추가 포함 디렉터리
+				C:\vcpkg\installed\x64-windows\include\
+				.\
+				C:\wolfssl-4.7.0\IDE\WIN
+				C:\wolfssl-4.7.0
+				C:\opencv\build\include
+			구성속성 > 링커 > 입력 > 추가 종속성
+				opencv_world451d.lib
+				wolfssl.lib
+				libprotobufd.lib
+			구성속성 > 링커 > 일반 > 추가 라이브러리 디렉터리
+				C:\wolfssl-4.7.0\x64\Debug
+				C:\opencv\build\x64\vc15\lib
+				C:\vcpkg\installed\x64-windows\debug\lib\
+		구성 (Release)
+			구성속성 > C/C++ > 추가 포함 디렉터리
+				C:\vcpkg\installed\x64-windows\include\
+				.\
+				C:\wolfssl-4.7.0\IDE\WIN
+				C:\wolfssl-4.7.0
+				C:\opencv\build\include
+			구성속성 > 링커 > 입력 > 추가 종속성
+				opencv_world451.lib
+				wolfssl.lib
+				libprotobuf.lib
+			구성속성 > 링커 > 일반 > 추가 라이브러리 디렉터리
+				C:\vcpkg\installed\x64-windows\lib\
+				C:\wolfssl-4.7.0\x64\Release
+				C:\opencv\build\x64\vc15\lib
+	Debug or RELEASE 솔루션 빌드 (Ctrl + Shift + B)
