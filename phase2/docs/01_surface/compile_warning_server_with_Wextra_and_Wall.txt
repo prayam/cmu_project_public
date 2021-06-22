@@ -1,0 +1,316 @@
+lg@LgFaceRecProject:~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build$ cmake ..
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.1")
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE
+-- Found CUDA: /usr/local/cuda (found suitable exact version "10.2")
+-- Found OpenCV: /usr (found version "4.5.1")
+-- Found CUDA: /usr/local/cuda (found version "10.2")
+-- Checking for modules 'glib-2.0;gobject-2.0;gio-2.0;gio-unix-2.0;sqlite3;libcrypto;wolfssl;protobuf;libsystemd'
+--   Found glib-2.0, version 2.56.4
+--   Found gobject-2.0, version 2.56.4
+--   Found gio-2.0, version 2.56.4
+--   Found gio-unix-2.0, version 2.56.4
+--   Found sqlite3, version 3.22.0
+--   Found libcrypto, version 1.1.1
+--   Found wolfssl, version 4.7.1
+--   Found protobuf, version 3.17.3
+--   Found libsystemd, version 237
+-- CUDA version: 10.2
+-- CUDA 10 detected, enabling SM_72
+CUDA_TOOLKIT_ROOT_DIR = /usr/local/cuda
+-- Found TensorRT headers at /usr/include/aarch64-linux-gnu
+-- Find TensorRT libs at /usr/lib/aarch64-linux-gnu/libnvinfer.so;/usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so;/usr/lib/aarch64-linux-gnu/libnvparsers.so
+-- Found TENSORRT: /usr/include/aarch64-linux-gnu
+-- Found TensorRT headers at /usr/include/aarch64-linux-gnu
+-- Find TensorRT libs at /usr/lib/aarch64-linux-gnu/libnvinfer.so;/usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so;/usr/lib/aarch64-linux-gnu/libnvparsers.so
+TENSORRT =
+DEFAULT_MSG =
+TENSORRT_LIBRARY = /usr/lib/aarch64-linux-gnu/libnvinfer.so;/usr/lib/aarch64-linux-gnu/libnvinfer_plugin.so;/usr/lib/aarch64-linux-gnu/libnvparsers.so
+DIR_SRCS = ./src/NetworkTCP.cpp;./src/NetworkUDP.cpp;./src/TcpSendRecvJpeg.cpp;./src/UdpSendRecvJpeg.cpp;./src/auth.cpp;./src/baseEngine.cpp;./src/comm.cpp;./src/common.cpp;./src/cyper.cpp;./src/faceNet.cpp;./src/imgproc.cpp;./src/main.cpp;./src/mtcnn.cpp;./src/mydb.cpp;./src/network.cpp;./src/onet_rt.cpp;./src/pnet_rt.cpp;./src/rnet_rt.cpp;./src/videoStreamer.cpp;../Common/Protocol/BaseProtocol.cpp;../Common/Protocol/MyProtocol.cpp;../Common/Protocol/ProtocolManager.cpp;../Common/Protocol/Msg/protocolLogin.pb.cc
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build
+lg@LgFaceRecProject:~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build$
+lg@LgFaceRecProject:~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build$
+lg@LgFaceRecProject:~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build$
+mlg@LgFaceRecProject:~/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/build$ make
+[  3%] Building NVCC (Device) object trt_l2norm_helper/CMakeFiles/trt_l2norm_helper.dir/trt_l2norm_helper_generated_l2norm_helper.cu.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cu: In member function ‘virtual int L2NormHelper::enqueue(int, const void* const*, void**, void*, cudaStream_t)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cu:147:1: warning: unused parameter ‘workspace’ [-Wunused-parameter]
+     void* workspace,
+ ^   ~~~~~
+Scanning dependencies of target trt_l2norm_helper
+[  7%] Building CXX object trt_l2norm_helper/CMakeFiles/trt_l2norm_helper.dir/l2norm_helper.cpp.o
+In file included from /home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:5:0:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.h: In constructor ‘L2NormHelper::L2NormHelper(int, float, int, int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.h:80:17: warning: ‘L2NormHelper::eps’ will be initialized after [-Wreorder]
+     float eps = 1e-12;
+                 ^~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.h:78:9: warning:   ‘int L2NormHelper::C’ [-Wreorder]
+     int C, H, W;
+         ^
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:21:1: warning:   when initialized here [-Wreorder]
+ L2NormHelper::L2NormHelper(int op_type, float eps, int C, int H, int W):
+ ^~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp: In member function ‘virtual size_t L2NormHelper::getWorkspaceSize(int) const’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:57:43: warning: unused parameter ‘maxBatchSize’ [-Wunused-parameter]
+ size_t L2NormHelper::getWorkspaceSize(int maxBatchSize) const
+                                           ^~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp: In member function ‘virtual void L2NormHelper::configureWithFormat(const nvinfer1::Dims*, int, const nvinfer1::Dims*, int, nvinfer1::DataType, nvinfer1::PluginFormat, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:101:45: warning: unused parameter ‘maxBatchSize’ [-Wunused-parameter]
+     DataType type, PluginFormat format, int maxBatchSize)
+                                             ^~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp: In member function ‘virtual nvinfer1::IPluginV2* L2NormHelperPluginCreator::createPlugin(const char*, const nvinfer1::PluginFieldCollection*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:178:64: warning: unused parameter ‘name’ [-Wunused-parameter]
+ IPluginV2* L2NormHelperPluginCreator::createPlugin(const char* name, const PluginFieldCollection* fc)
+                                                                ^~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp: In member function ‘virtual nvinfer1::IPluginV2* L2NormHelperPluginCreator::deserializePlugin(const char*, const void*, size_t)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/trt_l2norm_helper/l2norm_helper.cpp:201:15: warning: unused parameter ‘name’ [-Wunused-parameter]
+   const char* name, const void* serialData, size_t serialLength)
+               ^~~~
+[ 11%] Linking CXX static library libtrt_l2norm_helper.a
+[ 11%] Built target trt_l2norm_helper
+Scanning dependencies of target LgFaceRecDemoTCP_Jetson_NanoV2
+[ 14%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/NetworkTCP.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp: In function ‘TTcpConnectedPort* OpenTcpConnectionTLS(const char*, const char*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp:251:21: warning: unused variable ‘myaddr’ [-Wunused-variable]
+  struct sockaddr_in myaddr;
+                     ^~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp: In function ‘TTcpConnectedPort* OpenTcpConnection(const char*, const char*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp:386:21: warning: unused variable ‘myaddr’ [-Wunused-variable]
+  struct sockaddr_in myaddr;
+                     ^~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp: In function ‘ssize_t WriteDataTcpTLS(TTcpConnectedPort*, unsigned char*, size_t)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp:621:29: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  while (total_bytes_written != length)
+         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp: In function ‘ssize_t WriteDataTcp(TTcpConnectedPort*, unsigned char*, size_t)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/NetworkTCP.cpp:638:29: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+  while (total_bytes_written != length)
+         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+[ 18%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/NetworkUDP.cpp.o
+[ 22%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/TcpSendRecvJpeg.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp: In function ‘int TcpSendImageAsJpegTLS(TTcpConnectedPort*, cv::Mat)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:25:18: warning: unused variable ‘imagesize’ [-Wunused-variable]
+     unsigned int imagesize;
+                  ^~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp: In function ‘int TcpSendImageAsJpeg(TTcpConnectedPort*, cv::Mat)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:41:18: warning: unused variable ‘imagesize’ [-Wunused-variable]
+     unsigned int imagesize;
+                  ^~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp: In function ‘bool TcpRecvImageAsJpegTLS(TTcpConnectedPort*, cv::Mat*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:73:16: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   if (imagesize<0) return false;
+       ~~~~~~~~~^~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp: In function ‘bool TcpRecvImageAsJpeg(TTcpConnectedPort*, cv::Mat*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:98:16: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+   if (imagesize<0) return false;
+       ~~~~~~~~~^~
+[ 25%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/UdpSendRecvJpeg.cpp.o
+[ 29%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/auth.cpp.o
+[ 33%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/baseEngine.cpp.o
+In file included from /home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:5:0:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.h: In constructor ‘baseEngine::baseEngine(const char*, const char*, const char*, const char*, const char*, const char*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.h:38:17: warning: ‘baseEngine::OUTPUT_LOCATION_NAME’ will be initialized after [-Wreorder]
+     const char *OUTPUT_LOCATION_NAME;
+                 ^~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.h:37:17: warning:   ‘const char* baseEngine::OUTPUT_PROB_NAME’ [-Wreorder]
+     const char *OUTPUT_PROB_NAME;
+                 ^~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:9:1: warning:   when initialized here [-Wreorder]
+ baseEngine::baseEngine(const char * prototxt,const char* model,const  char* input_name,const char*location_name,
+ ^~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp: In member function ‘virtual void baseEngine::init(int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:23:27: warning: unused parameter ‘row’ [-Wunused-parameter]
+ void baseEngine::init(int row,int col) {
+                           ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:23:35: warning: unused parameter ‘col’ [-Wunused-parameter]
+ void baseEngine::init(int row,int col) {
+                                   ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp: In member function ‘virtual void baseEngine::caffeToGIEModel(const string&, const string&, const std::vector<std::__cxx11::basic_string<char> >&, unsigned int, nvinfer1::IHostMemory*&)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/baseEngine.cpp:30:49: warning: unused parameter ‘gieModelStream’ [-Wunused-parameter]
+                                   IHostMemory *&gieModelStream)    // output buffer for the GIE model
+                                                 ^~~~~~~~~~~~~~
+[ 37%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/comm.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/comm.cpp: In static member function ‘static void* CComm::comm_thread(gpointer)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/comm.cpp:368:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+[ 40%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/common.cpp.o
+[ 44%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/cyper.cpp.o
+[ 48%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/faceNet.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp: In member function ‘void FaceNetClassifier::preprocessFaces()’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:126:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (int i = 0; i < m_croppedFaces.size(); i++) {
+                     ~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp: In member function ‘void FaceNetClassifier::forward(cv::Mat, std::vector<Bbox>)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:202:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for(int i = 0; i < m_croppedFaces.size(); i++) {
+                    ~~^~~~~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp: In member function ‘std::__cxx11::string FaceNetClassifier::featureMatching(cv::Mat&, std::__cxx11::string)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:211:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for(int i = 0; i < (m_embeddings.size()/128); i++) {
+                    ~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:215:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         for (int j = 0; j < m_knownFaces.size(); j++) {
+                         ~~^~~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:216:13: warning: label ‘std’ defined but not used [-Wunused-label]
+             std:vector<float> currEmbedding(128);
+             ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp: In function ‘unsigned int elementSize(nvinfer1::DataType)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:307:12: warning: enumeration value ‘kBOOL’ not handled in switch [-Wswitch]
+     switch (t)
+            ^
+[ 51%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/imgproc.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp: In member function ‘gboolean CImgProc::start(eImgProc_Runmode)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:79:19: warning: unused variable ‘pfd’ [-Wunused-variable]
+     facenet_data *pfd=(facenet_data*)pfacenet_data;
+                   ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp: In member function ‘gboolean CImgProc::init_facenet()’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:223:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         for (int i=0;i<facelist.size();i++) {
+                      ~^~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp: In static member function ‘static void* CImgProc::imgproc_thread(gpointer)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:434:20: warning: enumeration value ‘IMGPROC_NONE’ not handled in switch [-Wswitch]
+             switch (pmsg->msgid)
+                    ^
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:351:14: warning: variable ‘startMTCNN’ set but not used [-Wunused-but-set-variable]
+         auto startMTCNN = chrono::steady_clock::now();
+              ^~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:353:14: warning: variable ‘endMTCNN’ set but not used [-Wunused-but-set-variable]
+         auto endMTCNN = chrono::steady_clock::now();
+              ^~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:354:14: warning: variable ‘startForward’ set but not used [-Wunused-but-set-variable]
+         auto startForward = chrono::steady_clock::now();
+              ^~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:356:14: warning: variable ‘endForward’ set but not used [-Wunused-but-set-variable]
+         auto endForward = chrono::steady_clock::now();
+              ^~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:357:14: warning: variable ‘startFeatM’ set but not used [-Wunused-but-set-variable]
+         auto startFeatM = chrono::steady_clock::now();
+              ^~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:359:14: warning: variable ‘endFeatM’ set but not used [-Wunused-but-set-variable]
+         auto endFeatM = chrono::steady_clock::now();
+              ^~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:313:9: warning: variable ‘learning_cnt’ set but not used [-Wunused-but-set-variable]
+     int learning_cnt=0;
+         ^~~~~~~~~~~~
+[ 55%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/main.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp: In function ‘void* main_thread(gpointer)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:386:11: warning: enumeration value ‘MYMSG_NONE’ not handled in switch [-Wswitch]
+    switch (pmsg->msgid)
+           ^
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:434:21: warning: deleting object of polymorphic class type ‘CBaseProtocol’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   if (pbase) delete pbase;
+                     ^~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp: In function ‘int main(int, char**)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:514:49: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+  run_cmd("/bin/systemctl restart nvargus-daemon");
+                                                 ^
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp: In function ‘void* main_thread(gpointer)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:443:1: warning: control reaches end of non-void function [-Wreturn-type]
+ }
+ ^
+[ 59%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/mtcnn.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp: In member function ‘std::vector<Bbox> mtcnn::findFace(cv::Mat&)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp:83:17: warning: unused variable ‘run_first_time’ [-Wunused-variable]
+         clock_t run_first_time = clock();
+                 ^~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp:79:13: warning: unused variable ‘first_time’ [-Wunused-variable]
+     clock_t first_time = clock();
+             ^~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mtcnn.cpp:147:13: warning: unused variable ‘third_time’ [-Wunused-variable]
+     clock_t third_time = clock();
+             ^~~~~~~~~~
+[ 62%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/mydb.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp: In member function ‘int CMydb::add_or_update_name(sqlite3*, std::__cxx11::string)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:113:13: warning: unused variable ‘ret’ [-Wunused-variable]
+         int ret;
+             ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp: In member function ‘gboolean CMydb::initialize_database_faces()’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:278:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for (int i = 0; i < paths.size(); i++)
+                     ~~^~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:241:9: warning: unused variable ‘ret’ [-Wunused-variable]
+     int ret;
+         ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp: In member function ‘gboolean CMydb::list_faces(std::vector<tFaceEntity>*)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:322:25: warning: unused variable ‘leng’ [-Wunused-variable]
+                 ssize_t leng = sqlite3_column_bytes(stmt, 2);
+                         ^~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:313:13: warning: unused variable ‘ret’ [-Wunused-variable]
+         int ret;
+             ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:299:9: warning: unused variable ‘videoFrameWidth’ [-Wunused-variable]
+     int videoFrameWidth = 640;
+         ^~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:300:9: warning: unused variable ‘videoFrameHeight’ [-Wunused-variable]
+     int videoFrameHeight = 480;
+         ^~~~~~~~~~~~~~~~
+[ 66%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/network.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp: In function ‘void nms(std::vector<Bbox>&, std::vector<orderScore>&, float, std::__cxx11::string)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp:47:26: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         for(int num=0;num<boundingBox_.size();num++){
+                       ~~~^~~~~~~~~~~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp:76:18: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     for(int i=0;i<heros.size();i++)
+                 ~^~~~~~~~~~~~~
+[ 70%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/onet_rt.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/onet_rt.cpp: In member function ‘virtual void Onet_engine::init(int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/onet_rt.cpp:20:28: warning: unused parameter ‘row’ [-Wunused-parameter]
+ void Onet_engine::init(int row, int col) {
+                            ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/onet_rt.cpp:20:37: warning: unused parameter ‘col’ [-Wunused-parameter]
+ void Onet_engine::init(int row, int col) {
+                                     ^~~
+[ 74%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/pnet_rt.cpp.o
+[ 77%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/rnet_rt.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/rnet_rt.cpp: In member function ‘virtual void Rnet_engine::init(int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/rnet_rt.cpp:20:28: warning: unused parameter ‘row’ [-Wunused-parameter]
+ void Rnet_engine::init(int row, int col) {
+                            ^~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/rnet_rt.cpp:20:37: warning: unused parameter ‘col’ [-Wunused-parameter]
+ void Rnet_engine::init(int row, int col) {
+                                     ^~~
+[ 81%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/src/videoStreamer.cpp.o
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp: In constructor ‘VideoStreamer::VideoStreamer(std::__cxx11::string, int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp:31:56: warning: unused parameter ‘videoWith’ [-Wunused-parameter]
+ VideoStreamer::VideoStreamer(std::string filename, int videoWith, int videoHeight) {
+                                                        ^~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp:31:71: warning: unused parameter ‘videoHeight’ [-Wunused-parameter]
+ VideoStreamer::VideoStreamer(std::string filename, int videoWith, int videoHeight) {
+                                                                       ^~~~~~~~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp: In member function ‘void VideoStreamer::setResoltionFile(int, int)’:
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp:47:42: warning: unused parameter ‘width’ [-Wunused-parameter]
+ void VideoStreamer::setResoltionFile(int width, int height) {
+                                          ^~~~~
+/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/videoStreamer.cpp:47:53: warning: unused parameter ‘height’ [-Wunused-parameter]
+ void VideoStreamer::setResoltionFile(int width, int height) {
+                                                     ^~~~~~
+[ 85%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/home/lg/team6/tartan/Common/Protocol/BaseProtocol.cpp.o
+[ 88%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/home/lg/team6/tartan/Common/Protocol/MyProtocol.cpp.o
+[ 92%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/home/lg/team6/tartan/Common/Protocol/ProtocolManager.cpp.o
+[ 96%] Building CXX object CMakeFiles/LgFaceRecDemoTCP_Jetson_NanoV2.dir/home/lg/team6/tartan/Common/Protocol/Msg/protocolLogin.pb.cc.o
+[100%] Linking CXX executable LgFaceRecDemoTCP_Jetson_NanoV2
+[100%] Built target LgFaceRecDemoTCP_Jetson_NanoV2

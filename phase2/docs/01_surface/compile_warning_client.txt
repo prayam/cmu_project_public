@@ -1,0 +1,48 @@
+Build started...
+1>------ Build started: Project: MFCApplication1, Configuration: Release x64 ------
+1>pch.cpp
+1>NetworkManager.cpp
+1>Warning: For timing resistance / side-channel attack prevention consider using harden options
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>NetworkTCP.cpp
+1>Warning: For timing resistance / side-channel attack prevention consider using harden options
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(188,56): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(320,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(363,60): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(406,61): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(496,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(576,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(631,79): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>BaseProtocol.cpp
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\BaseProtocol.cpp(33,67): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+1>protocolLogin.pb.cc
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc(1021,68): warning C4244: '=': conversion from 'google::protobuf::uint64' to 'google::protobuf::int32', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc(1244,67): warning C4244: '=': conversion from 'google::protobuf::uint64' to 'google::protobuf::int32', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc(1441,69): warning C4244: '=': conversion from 'google::protobuf::uint64' to 'google::protobuf::int32', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc(1668,70): warning C4244: '=': conversion from 'google::protobuf::uint64' to 'google::protobuf::int32', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc(2097,65): warning C4244: '=': conversion from 'google::protobuf::uint64' to 'google::protobuf::int32', possible loss of data
+1>MyProtocol.cpp
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>ProtocolManager.cpp
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(55,34): warning C4244: '=': conversion from '__int64' to 'uint32_t', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(56,20): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(74,58): warning C4267: 'argument': conversion from 'size_t' to 'const int', possible loss of data
+1>TcpSendRecvJpeg.cpp
+1>Warning: For timing resistance / side-channel attack prevention consider using harden options
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp(25,36): warning C4267: 'argument': conversion from 'size_t' to 'u_long', possible loss of data
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp(28,24): warning C4244: 'return': conversion from 'ssize_t' to 'int', possible loss of data
+1>MFCApplication1.cpp
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>Warning: For timing resistance / side-channel attack prevention consider using harden options
+1>MFCApplication1Dlg.cpp
+1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\ProtocolDef.h(1,1): warning C4819: The file contains a character that cannot be represented in the current code page (949). Save the file in Unicode format to prevent data loss
+1>Warning: For timing resistance / side-channel attack prevention consider using harden options
+1>Generating code
+1>Previous IPDB not found, fall back to full compilation.
+1>All 2781 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+1>Finished generating code
+1>MFCApplication1.vcxproj -> C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\x64\Release\MFCApplication1.exe
+1>Done building project "MFCApplication1.vcxproj".
