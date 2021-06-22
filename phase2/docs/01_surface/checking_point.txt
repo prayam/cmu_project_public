@@ -1,0 +1,74 @@
+<strings_server.txt>
+	Line 2080: DROP TABLE IF EXISTS user;CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT , account TEXT, passwd TEXT, privilege INT);INSERT INTO user VALUES(1, 'admin', 'e9b6ebe030d910d3b0c253b9bd05dfc365f1e17f61f2b64385898a8247b5b792' ,0);INSERT INTO user VALUES(2, 'lg', '078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1' ,2);
+	Line 5329: Secret key is not exist...
+	
+<compile_warning_client.txt>
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(188,56): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(320,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(363,60): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(406,61): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(496,5): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(576,87): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\NetworkTCP.cpp(631,79): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(55,34): warning C4244: '=': conversion from '__int64' to 'uint32_t', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(56,20): warning C4267: '=': conversion from 'size_t' to 'uint32_t', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp(74,58): warning C4267: 'argument': conversion from 'size_t' to 'const int', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp(25,36): warning C4267: 'argument': conversion from 'size_t' to 'u_long', possible loss of data
+	1>C:\Users\17Z990_PC5\Downloads\security_specialist\03.cmu\project\LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp(28,24): warning C4244: 'return': conversion from 'ssize_t' to 'int', possible loss of data
+
+<compile_warning_server_with_Wextra_and_Wall.txt>
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:73:16: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+	   if (imagesize<0) return false;
+		   ~~~~~~~~~^~
+		   
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/TcpSendRecvJpeg.cpp:98:16: warning: comparison of unsigned expression < 0 is always false [-Wtype-limits]
+	   if (imagesize<0) return false;
+		   ~~~~~~~~~^~
+		   
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:126:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+		 for (int i = 0; i < m_croppedFaces.size(); i++) {
+						 ~~^~~~~~~~~~~~~~~~~~~~~~~
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:202:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+		 for(int i = 0; i < m_croppedFaces.size(); i++) {
+						~~^~~~~~~~~~~~~~~~~~~~~~~
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:211:22: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+		 for(int i = 0; i < (m_embeddings.size()/128); i++) {
+						~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:215:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+			 for (int j = 0; j < m_knownFaces.size(); j++) {
+							 ~~^~~~~~~~~~~~~~~~~~~~~
+							 
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/faceNet.cpp:307:12: warning: enumeration value ‘kBOOL’ not handled in switch [-Wswitch]
+		 switch (t)
+				^
+				
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:223:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+			 for (int i=0;i<facelist.size();i++) {
+						  ~^~~~~~~~~~~~~~~~
+						  
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/imgproc.cpp:434:20: warning: enumeration value ‘IMGPROC_NONE’ not handled in switch [-Wswitch]
+				 switch (pmsg->msgid)
+						^
+						
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:434:21: warning: deleting object of polymorphic class type ‘CBaseProtocol’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+	   if (pbase) delete pbase;
+						 ^~~~~
+						 
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:514:49: warning: ISO C++ forbids converting a string constant to ‘char*’ [-Wwrite-strings]
+	  run_cmd("/bin/systemctl restart nvargus-daemon");
+													 ^
+													 
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/main.cpp:443:1: warning: control reaches end of non-void function [-Wreturn-type]
+	 }
+	 ^
+	 
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/mydb.cpp:278:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+		 for (int i = 0; i < paths.size(); i++)
+						 ~~^~~~~~~~~~~~~~
+						 
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp:47:26: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+			 for(int num=0;num<boundingBox_.size();num++){
+						   ~~~^~~~~~~~~~~~~~~~~~~~
+	/home/lg/team6/tartan/LgFaceRecDemoTCP_Jetson_NanoV2/src/network.cpp:76:18: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+		 for(int i=0;i<heros.size();i++)
+					 ~^~~~~~~~~~~~~
