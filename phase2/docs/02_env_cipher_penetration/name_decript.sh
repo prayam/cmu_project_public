@@ -23,3 +23,4 @@ openssl enc -aes-128-cbc -d -in name${1} -out name${1}.dec\
 cat name${1}.dec
 echo "  (id_num:"${1}")";
 
+mv name${1}.dec name${1}

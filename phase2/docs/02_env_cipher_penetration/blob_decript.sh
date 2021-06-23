@@ -24,7 +24,13 @@ truncate -s -8 blob${1}.mod
 # 	-K '123456789ABCDEF03456789ABCDEF012'\
 # 	-iv '00000000000000000000000000000000'\
 # 	-nosalt -nopad
-openssl enc -aes-128-cbc -d -in name${1} -out name${1}.dec\
+openssl enc -aes-128-cbc -d -in blob${1}.mod -out blob${1}.dec\
 	-K ${AES_ROOT_KEY}\
 	-iv ${IV_VALUE}\
 	-nosalt -nopad
+
+./dbDecToJPG blob${1}.dec
+mv result.jpg blob${1}.jpg
+
+rm blob${1}.bin blob${1}.mod
+ 
