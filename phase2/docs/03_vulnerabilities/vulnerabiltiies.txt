@@ -1,0 +1,8 @@
+06/23
+- insert a arbitrary id/password to DB
+	1. we recognized the sqlite3 DB is used by checking the install guide.
+	2. And we found the DB file and we could see the contents of the user DB.
+	3. it consists of the user id and the hashed value of password.
+	4. So we looked into the source code and we found the logic of how to make the hashed value of password.
+	5. So we changed the password of the 'admin' in DB to what we generated.
+	6. Finally we could do the login with 'admin' id with the generated password.
