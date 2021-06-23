@@ -32,5 +32,5 @@ openssl enc -aes-128-cbc -d -in blob${1}.mod -out blob${1}.dec\
 ./dbDecToJPG blob${1}.dec
 mv result.jpg blob${1}.jpg
 
-rm blob${1}.bin blob${1}.mod
+rm blob${1}.bin blob${1}.mod blob${1}.dec
  
