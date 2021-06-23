@@ -1,3 +1,4 @@
+#!/bin/sh
 
 AES_ROOT_KEY=$(hexdump -e '16/1 "%02x"' /var/shinpark/secret.key)
 #echo ${AES_ROOT_KEY}
