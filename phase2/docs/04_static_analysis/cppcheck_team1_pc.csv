@@ -1,0 +1,48 @@
+File, Line, Severity, Id, Summary
+LGSecurity\MFCApplication1\MFCApplication1.cpp,17,error,unknownMacro,There is an unknown macro here somewhere. Configuration is required. If BEGIN_MESSAGE_MAP is a macro then please configure it.
+LGSecurity\MFCApplication1\MFCApplication1Dlg.cpp,47,error,unknownMacro,There is an unknown macro here somewhere. Configuration is required. If BEGIN_MESSAGE_MAP is a macro then please configure it.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,11,warning,noCopyConstructor,Class 'NetworkManager' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,11,warning,noOperatorEq,Class 'NetworkManager' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,92,performance,passedByValue,Function parameter 'ip' should be passed by const reference.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,87,style,unusedFunction,The function 'closeTCPConnection' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,97,style,unusedFunction,The function 'getIPAdress' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,69,style,unusedFunction,The function 'getMode' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,102,style,unusedFunction,The function 'get_a_packet' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,64,style,unusedFunction,The function 'isAdmin' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,59,style,unusedFunction,The function 'isSecure' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,20,style,unusedFunction,The function 'openTcpConnection' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,74,style,unusedFunction,The function 'requestType' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,79,style,unusedFunction,The function 'resetStatus' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,193,style,unusedFunction,The function 'send_packet' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,92,style,unusedFunction,The function 'setIPAdress' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,49,style,unusedFunction,The function 'setMode' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,54,style,unusedFunction,The function 'setRequestType' is never used.
+LGSecurity\MFCApplication1\Common\NetworkManager.cpp,39,style,unusedFunction,The function 'setSecureMode' is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,590,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,613,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,645,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,668,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,683,style,variableScope,The scope of the variable 'bytes_written' can be reduced.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,700,style,variableScope,The scope of the variable 'bytes_written' can be reduced.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,718,style,unreadVariable,Variable 'hWnd' is assigned a value that is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,590,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,613,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,645,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,668,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,200,style,unusedFunction,The function 'AcceptTcpConnection' is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,110,style,unusedFunction,The function 'AcceptTcpConnectionTLS' is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,21,style,unusedFunction,The function 'OpenTcpListenPort' is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,715,style,unusedFunction,The function 'TestCode' is never used.
+LGSecurity\MFCApplication1\Common\NetworkTCP.cpp,556,style,unusedFunction,The function 'print_pkt_header' is never used.
+LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp,48,style,unsignedLessThanZero,Checking if unsigned expression 'imagesize' is less than zero.
+LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp,73,style,unsignedLessThanZero,Checking if unsigned expression 'imagesize' is less than zero.
+LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp,64,style,unusedFunction,The function 'TcpRecvImageAsJpeg' is never used.
+LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp,39,style,unusedFunction,The function 'TcpRecvImageAsJpegTLS' is never used.
+LGSecurity\MFCApplication1\Common\TcpSendRecvJpeg.cpp,20,style,unusedFunction,The function 'TcpSendImageAsJpeg' is never used.
+LGSecurity\MFCApplication1\Common\Protocol\MyProtocol.cpp,0,information,noValidConfiguration,This file is not analyzed. Cppcheck failed to extract a valid configuration. Use -v for more details.
+LGSecurity\MFCApplication1\Common\Protocol\ProtocolManager.cpp,0,information,noValidConfiguration,This file is not analyzed. Cppcheck failed to extract a valid configuration. Use -v for more details.
+LGSecurity\MFCApplication1\Common\Protocol\Msg\protocolLogin.pb.cc,0,information,noValidConfiguration,This file is not analyzed. Cppcheck failed to extract a valid configuration. Use -v for more details.
+LGSecurity\MFCApplication1\Common\Protocol\BaseProtocol.cpp,52,style,unusedFunction,The function 'deSerialize' is never used.
+LGSecurity\MFCApplication1\Common\Protocol\BaseProtocol.cpp,44,style,unusedFunction,The function 'getSize' is never used.
+LGSecurity\MFCApplication1\Common\Protocol\BaseProtocol.cpp,31,style,unusedFunction,The function 'serializeToArray' is never used.
+LGSecurity\MFCApplication1\Common\Protocol\BaseProtocol.cpp,24,style,unusedFunction,The function 'set_msg' is never used.

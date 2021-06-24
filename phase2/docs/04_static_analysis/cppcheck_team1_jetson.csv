@@ -1,0 +1,174 @@
+File, Line, Severity, Id, Summary
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,548,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,565,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,588,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,605,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,620,style,variableScope,The scope of the variable 'bytes_written' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,637,style,variableScope,The scope of the variable 'bytes_written' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,548,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,565,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,588,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,605,portability,invalidPrintfArgType_uint,%zu in format string (no. 1) requires 'size_t' but the argument type is 'SSIZE_T {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,383,style,unusedFunction,The function 'OpenTcpConnection' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,248,style,unusedFunction,The function 'OpenTcpConnectionTLS' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkTCP.cpp,523,style,unusedFunction,The function 'print_pkt_header' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,73,style,unsignedLessThanZero,Checking if unsigned expression 'imagesize' is less than zero.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,98,style,unsignedLessThanZero,Checking if unsigned expression 'imagesize' is less than zero.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,25,style,unusedVariable,Unused variable: imagesize
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,41,style,unusedVariable,Unused variable: imagesize
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,89,style,unusedFunction,The function 'TcpRecvImageAsJpeg' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\TcpSendRecvJpeg.cpp,64,style,unusedFunction,The function 'TcpRecvImageAsJpegTLS' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.h,22,performance,passedByValue,Function parameter 'instr' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.h,23,performance,passedByValue,Function parameter 'instr' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\baseEngine.cpp,9,warning,uninitMemberVar,Member variable 'baseEngine::context' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,8,warning,uninitMemberVar,Member variable 'CComm::TcpListenPort' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,8,warning,uninitMemberVar,Member variable 'CComm::thread' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,10,performance,useInitializationList,Variable 'tcp_connected' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,11,performance,useInitializationList,Variable 'tls_mode' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,14,performance,useInitializationList,Variable 'thread_run' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,16,performance,useInitializationList,Variable 'thread_pause' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,296,style,knownConditionTrueFalse,Condition 'pfd.revents==0' is always true
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,234,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,140,style,variableScope,The scope of the variable 'sents' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,190,style,variableScope,The scope of the variable 'sents' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,294,style,variableScope,The scope of the variable 'ret' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,92,style,unusedFunction,The function 'pause' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\comm.cpp,107,style,unusedFunction,The function 'resume' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\common.cpp,50,style,variableScope,The scope of the variable 'entry' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\common.cpp,22,style,unusedFunction,The function 'calculateBindingBufferSizes' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\common.cpp,8,style,unusedFunction,The function 'safeCudaMalloc' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.cpp,66,error,mismatchAllocDealloc,Mismatching allocation and deallocation: outbuf
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.cpp,105,error,mismatchAllocDealloc,Mismatching allocation and deallocation: midbuf
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.cpp,53,performance,passedByValue,Function parameter 'instr' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\cyper.cpp,88,performance,passedByValue,Function parameter 'instr' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,5,warning,uninitMemberVar,Member variable 'FaceNetClassifier::m_output' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,14,performance,useInitializationList,Variable 'm_gLogger' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,15,performance,useInitializationList,Variable 'm_dtype' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,16,performance,useInitializationList,Variable 'm_uffFile' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,17,performance,useInitializationList,Variable 'm_engineFile' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,213,style,variableScope,The scope of the variable 'currDistance' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,216,style,unusedLabel,Label 'std' is not used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,6,performance,passedByValue,Function parameter 'uffFile' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,6,performance,passedByValue,Function parameter 'engineFile' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,181,performance,passedByValue,Function parameter 'outputBbox' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,182,performance,passedByValue,Function parameter 'className' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,199,performance,passedByValue,Function parameter 'outputBbox' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,253,performance,passedByValue,Function parameter 'outputBbox' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,266,performance,passedByValue,Function parameter 'outputBbox' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,108,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,266,style,unusedFunction,The function 'addNewFace' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.cpp,305,style,unusedFunction,The function 'elementSize' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,39,warning,uninitMemberVar,Member variable 'CImgProc::thread' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,53,warning,uninitMemberVar,Member variable 'CImgProc::thread' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,45,performance,useInitializationList,Variable 'pfacenet_data' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,47,performance,useInitializationList,Variable 'thread_run' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,48,performance,useInitializationList,Variable 'camera_dev' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,59,performance,useInitializationList,Variable 'pfacenet_data' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,61,performance,useInitializationList,Variable 'thread_run' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,62,performance,useInitializationList,Variable 'camera_dev' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,71,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,79,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,172,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,242,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,252,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,253,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,53,performance,passedByValue,Function parameter 'dev' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,152,performance,passedByValue,Function parameter 'name' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,79,style,unreadVariable,Variable 'pfd' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,135,style,unusedFunction,The function 'getch' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.cpp,125,style,unusedFunction,The function 'kbhit' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\rnet_rt.h,24,style,noExplicitConstructor,Class 'Rnet' has a constructor with 1 argument that is not explicit.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\rnet_rt.h,17,style,missingOverride,The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\onet_rt.h,23,style,noExplicitConstructor,Class 'Onet' has a constructor with 1 argument that is not explicit.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\onet_rt.h,16,style,missingOverride,The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.h,35,style,noExplicitConstructor,Class 'CImgProc' has a constructor with 1 argument that is not explicit.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\imgproc.h,45,performance,passedByValue,Function parameter 'name' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\pnet_rt.h,21,style,missingOverride,The function 'init' overrides a function in a base class but is not marked with a 'override' specifier.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.h,35,performance,passedByValue,Function parameter 'uffFile' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.h,35,performance,passedByValue,Function parameter 'engineFile' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\faceNet.h,43,performance,passedByValue,Function parameter 'className' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,397,style,cstyleCast,C-style pointer casting
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,57,style,variableScope,The scope of the variable 'rc' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,83,style,variableScope,The scope of the variable 'entry' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,170,style,useStlAlgorithm,Consider using std::transform algorithm instead of a raw loop.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,57,style,unreadVariable,Variable 'rc' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,327,style,unusedVariable,Unused variable: filelist
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\main.cpp,55,style,unusedFunction,The function 'port_check' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,39,warning,noCopyConstructor,Class 'mtcnn' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,39,warning,noOperatorEq,Class 'mtcnn' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,79,style,unreadVariable,Variable 'first_time' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,141,style,unreadVariable,Variable 'second_time' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,147,style,unreadVariable,Variable 'third_time' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,25,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,93,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,117,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mtcnn.cpp,148,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,41,warning,uninitMemberVar,Member variable 'CMydb::db' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,44,performance,useInitializationList,Variable 'user_db_filename' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,45,performance,useInitializationList,Variable 'faces_db_filename' is assigned in constructor body. Consider performing initialization in initialization list.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,284,portability,invalidPrintfArgType_uint,%zu in format string (no. 2) requires 'size_t' but the argument type is 'ssize_t {aka signed long long}'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,298,style,variableScope,The scope of the variable 'err_msg' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,370,style,variableScope,The scope of the variable 'err_msg' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,414,style,variableScope,The scope of the variable 'err_msg' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,114,style,shadowVariable,Local variable 'sql' shadows outer variable
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,135,performance,passedByValue,Function parameter 'name' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,410,performance,passedByValue,Function parameter 'id' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,410,performance,passedByValue,Function parameter 'passwd' should be passed by const reference.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,113,style,unusedVariable,Unused variable: ret
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,241,style,unusedVariable,Unused variable: ret
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,299,style,unreadVariable,Variable 'videoFrameWidth' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,300,style,unreadVariable,Variable 'videoFrameHeight' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\mydb.cpp,313,style,unusedVariable,Unused variable: ret
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,34,style,variableScope,The scope of the variable 'order' can be reduced.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,34,style,unreadVariable,Variable 'order' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,84,style,unreadVariable,Variable 'bbw' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,84,style,unreadVariable,Variable 'bbh' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,84,style,unreadVariable,Variable 'maxSide' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,85,style,unreadVariable,Variable 'h' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,85,style,unreadVariable,Variable 'w' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,86,style,unreadVariable,Variable 'x1' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,86,style,unreadVariable,Variable 'y1' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,86,style,unreadVariable,Variable 'x2' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,86,style,unreadVariable,Variable 'y2' is assigned a value that is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,66,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\network.cpp,87,performance,postfixOperator,Prefer prefix ++/-- operators for non-primitive types.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\onet_rt.cpp,36,warning,noCopyConstructor,Class 'Onet' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\onet_rt.cpp,36,warning,noOperatorEq,Class 'Onet' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\onet_rt.cpp,89,style,constParameter,Parameter 'image' can be declared with const
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\pnet_rt.cpp,57,warning,noCopyConstructor,Class 'Pnet' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\pnet_rt.cpp,57,warning,noOperatorEq,Class 'Pnet' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\pnet_rt.cpp,100,style,constParameter,Parameter 'image' can be declared with const
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\rnet_rt.cpp,37,warning,noCopyConstructor,Class 'Rnet' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\rnet_rt.cpp,37,warning,noOperatorEq,Class 'Rnet' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\rnet_rt.cpp,77,style,constParameter,Parameter 'image' can be declared with const
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,31,warning,uninitMemberVar,Member variable 'VideoStreamer::m_videoWidth' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,31,warning,uninitMemberVar,Member variable 'VideoStreamer::m_videoHeight' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,31,warning,uninitMemberVar,Member variable 'VideoStreamer::m_frameRate' is not initialized in the constructor.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,32,warning,noCopyConstructor,Class 'VideoStreamer' does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,32,warning,noOperatorEq,Class 'VideoStreamer' does not have a operator= which is recommended since it has dynamic memory/resource allocation(s).
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,55,style,unusedFunction,The function 'assertResolution' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,47,style,unusedFunction,The function 'setResoltionFile' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\videoStreamer.cpp,40,style,unusedFunction,The function 'setResolutionDevice' is never used.
+tartan\Common\Protocol\MyProtocol.h,46,style,noExplicitConstructor,Class 'CControlModeProtocol' has a constructor with 1 argument that is not explicit.
+tartan\Common\Protocol\MyProtocol.h,58,style,noExplicitConstructor,Class 'CServerSettingProtocol' has a constructor with 1 argument that is not explicit.
+tartan\Common\Protocol\MyProtocol.h,70,style,noExplicitConstructor,Class 'CVideoFileListProtocol' has a constructor with 1 argument that is not explicit.
+tartan\Common\Protocol\MyProtocol.h,82,style,noExplicitConstructor,Class 'CTestMode_PlayVideoProtocol' has a constructor with 1 argument that is not explicit.
+tartan\Common\Protocol\MyProtocol.h,18,performance,passedByValue,Function parameter 'id' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.h,18,performance,passedByValue,Function parameter 'pw' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.h,19,performance,passedByValue,Function parameter 'id' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.h,20,performance,passedByValue,Function parameter 'password' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.cpp,12,performance,passedByValue,Function parameter 'id' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.cpp,12,performance,passedByValue,Function parameter 'pw' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.cpp,18,performance,passedByValue,Function parameter 'id' should be passed by const reference.
+tartan\Common\Protocol\MyProtocol.cpp,22,performance,passedByValue,Function parameter 'password' should be passed by const reference.
+tartan\Common\Protocol\ProtocolManager.cpp,60,warning,invalidPrintfArgType_sint,%d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+tartan\Common\Protocol\ProtocolManager.cpp,61,portability,invalidPrintfArgType_sint,%zd in format string (no. 1) requires 'ssize_t' but the argument type is 'size_t {aka unsigned long long}'.
+tartan\Common\Protocol\ProtocolManager.cpp,70,warning,invalidPrintfArgType_sint,%d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+tartan\Common\Protocol\ProtocolManager.cpp,73,warning,invalidPrintfArgType_sint,%d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+tartan\Common\Protocol\ProtocolManager.cpp,74,warning,invalidPrintfArgType_sint,%d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkUDP.cpp,149,style,unusedFunction,The function 'DeleteUdpDest' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkUDP.cpp,105,style,unusedFunction,The function 'GetUdpDest' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\NetworkUDP.cpp,18,style,unusedFunction,The function 'OpenUdpPort' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\UdpSendRecvJpeg.cpp,34,style,unusedFunction,The function 'UdpRecvImageAsJpeg' is never used.
+tartan\LgFaceRecDemoTCP_Jetson_NanoV2\src\UdpSendRecvJpeg.cpp,19,style,unusedFunction,The function 'UdpSendImageAsJpeg' is never used.
+tartan\Common\Protocol\BaseProtocol.cpp,23,style,unusedFunction,The function 'set_msg' is never used.
