@@ -6,7 +6,9 @@ V01) insert a arbitrary id/password to DB
 
 	Vulnerabilities
 		V01-1. sqlite3 database files(tartan_faces.db, tartan_user.db) have no password. So it can be accessed and modified by an attacker.
-	
+			CWE-916: Use of Password Hash With Insufficient Computational Effort https://cwe.mitre.org/data/definitions/916.html
+			CWE-862: Missing Authorization https://cwe.mitre.org/data/definitions/862.html
+
 	Approach
 		V01-1.
 			From install guide(tartan_install.sh), we found some db files are installed. 
@@ -86,7 +88,8 @@ V02) sniffing the id/password
 
 	Vulnerabilities
 		V02-1. the communication channel for the user credentials is not secure
-		
+			CWE-319: Cleartext Transmission of Sensitive Information https://cwe.mitre.org/data/definitions/319.html
+
 	Approach
 		V02-1.
 			Capture TCP Packet using port number 50000 (=non-secure port)
@@ -119,6 +122,7 @@ V03) exposed user credentials in the server log
 		
 	Vulnerabilities
 		V03-1. the logging information exposes too much information
+			CWE-532: Insertion of Sensitive Information into Log File https://cwe.mitre.org/data/definitions/532.html
 		
 	Approach
 		V03-1. just monitoring the log. we have no idea to find this vulnerability.
@@ -141,7 +145,8 @@ V04) infinite loop in the NetworkTCP.cpp
 		
 	Vulnerabilities
 		V04-1. infinite loop in the ReadDataTcp function. because it doesn't handle the return value of 'recv' function correctly. it causes the denial of service.
-		
+			CWE-253: Incorrect Check of Function Return Value https://cwe.mitre.org/data/definitions/253.html
+
 	Approach
 		V04-1.
 			when checking the man page of recv, it can return the 0 when a peer is disconnected.
