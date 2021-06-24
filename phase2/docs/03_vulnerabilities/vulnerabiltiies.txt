@@ -70,6 +70,8 @@ V01) insert a arbitrary id/password to DB
 
 			Finally we change the db to what we want. Change the admin paswd to SHA256 hashed value of 'lg' and add new 'user'.
 			So we can login 'admin/lg' and 'user/user' in the client program
+				sqlite> replace into user values (1,'admin','0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292',0);
+				sqlite> insert into user values (3,'user','04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb',2);
 				sqlite> select * from user;
 				1|admin|0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292|0
 				2|lg|078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1|2
