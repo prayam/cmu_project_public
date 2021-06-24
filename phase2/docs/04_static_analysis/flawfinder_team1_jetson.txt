@@ -1,0 +1,177 @@
+Flawfinder version 2.0.17, (C) 2001-2019 David A. Wheeler.
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 222
+Examining src/baseEngine.h
+Examining src/onet_rt.cpp
+Examining src/rnet_rt.h
+Examining src/comm.h
+Examining src/mymsg.h
+Examining src/videoStreamer.h
+Examining src/mydb.cpp
+Examining src/faceNet.h
+Examining src/pnet_rt.h
+Examining src/videoStreamer.cpp
+Examining src/auth.cpp
+Examining src/imgproc.cpp
+Examining src/TcpSendRecvJpeg.h
+Examining src/NetworkTCP.h
+Examining src/UdpSendRecvJpeg.cpp
+Examining src/network.cpp
+Examining src/UdpSendRecvJpeg.h
+Examining src/main.h
+Examining src/baseEngine.cpp
+Examining src/network.h
+Examining src/cyper.h
+Examining src/pBox.h
+Examining src/NetworkUDP.cpp
+Examining src/mtcnn.h
+Examining src/faceNet.cpp
+Examining src/main.cpp
+Examining src/auth.h
+Examining src/mydb.h
+Examining src/cyper.cpp
+Examining src/common.cpp
+Examining src/mtcnn.cpp
+Examining src/rnet_rt.cpp
+Examining src/onet_rt.h
+Examining src/TcpSendRecvJpeg.cpp
+Examining src/common.h
+Examining src/pnet_rt.cpp
+Examining src/comm.cpp
+Examining src/imgproc.h
+Examining src/NetworkTCP.cpp
+Examining src/NetworkUDP.h
+Examining ../Common/Protocol/MyProtocol.h
+Examining ../Common/Protocol/ProtocolManager.h
+Examining ../Common/Protocol/BaseProtocol.cpp
+Examining ../Common/Protocol/MyProtocol.cpp
+Examining ../Common/Protocol/ProtocolManager.cpp
+Examining ../Common/Protocol/ProtocolDef.h
+Examining ../Common/Protocol/BaseProtocol.h
+
+FINAL RESULTS:
+
+src/cyper.cpp:19:  [4] (race) access:
+  This usually indicates a security flaw. If an attacker can change anything
+  along the path between the call to access() and the file's actual use
+  (e.g., by moving files), the attacker can exploit the race condition
+  (CWE-362/CWE-367!). Set up the correct permissions (e.g., using setuid())
+  and try to open the file directly.
+src/mydb.cpp:466:  [4] (race) access:
+  This usually indicates a security flaw. If an attacker can change anything
+  along the path between the call to access() and the file's actual use
+  (e.g., by moving files), the attacker can exploit the race condition
+  (CWE-362/CWE-367!). Set up the correct permissions (e.g., using setuid())
+  and try to open the file directly.
+src/mydb.cpp:473:  [4] (race) access:
+  This usually indicates a security flaw. If an attacker can change anything
+  along the path between the call to access() and the file's actual use
+  (e.g., by moving files), the attacker can exploit the race condition
+  (CWE-362/CWE-367!). Set up the correct permissions (e.g., using setuid())
+  and try to open the file directly.
+../Common/Protocol/ProtocolDef.h:47:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+../Common/Protocol/ProtocolDef.h:55:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+../Common/Protocol/ProtocolManager.cpp:55:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+src/NetworkTCP.cpp:560:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+src/NetworkTCP.cpp:600:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+src/UdpSendRecvJpeg.cpp:37:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+src/baseEngine.cpp:92:  [2] (misc) open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (CWE-362).
+src/cyper.cpp:15:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+src/cyper.cpp:21:  [2] (misc) open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (CWE-362).
+src/cyper.cpp:140:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+src/cyper.h:29:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+src/faceNet.cpp:92:  [2] (misc) open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (CWE-362).
+src/mtcnn.cpp:125:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+src/mtcnn.cpp:157:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+src/mydb.cpp:38:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+src/pnet_rt.cpp:24:  [2] (misc) open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (CWE-362).
+src/pnet_rt.cpp:41:  [2] (misc) open:
+  Check when opening files - can an attacker redirect it (via symlinks),
+  force the opening of special file type (e.g., device files), move things
+  around to create a race condition, control its ancestors, or change its
+  contents? (CWE-362).
+src/baseEngine.cpp:55:  [1] (buffer) read:
+  Check buffer boundaries if used in a loop including recursive loops
+  (CWE-120, CWE-20).
+src/cyper.cpp:22:  [1] (buffer) read:
+  Check buffer boundaries if used in a loop including recursive loops
+  (CWE-120, CWE-20).
+src/faceNet.cpp:43:  [1] (buffer) read:
+  Check buffer boundaries if used in a loop including recursive loops
+  (CWE-120, CWE-20).
+src/imgproc.cpp:139:  [1] (buffer) read:
+  Check buffer boundaries if used in a loop including recursive loops
+  (CWE-120, CWE-20).
+
+ANALYSIS SUMMARY:
+
+Hits = 24
+Lines analyzed = 5853 in approximately 0.08 seconds (72200 lines/second)
+Physical Source Lines of Code (SLOC) = 4703
+Hits@level = [0] 138 [1]   4 [2]  17 [3]   0 [4]   3 [5]   0
+Hits@level+ = [0+] 162 [1+]  24 [2+]  20 [3+]   3 [4+]   3 [5+]   0
+Hits/KSLOC@level+ = [0+] 34.4461 [1+] 5.10313 [2+] 4.2526 [3+] 0.637891 [4+] 0.637891 [5+]   0
+Minimum risk level = 1
+
+Not every hit is necessarily a security vulnerability.
+You can inhibit a report by adding a comment in this form:
+// flawfinder: ignore
+Make *sure* it's a false positive!
+You can use the option --neverignore to show these.
+
+There may be other security vulnerabilities; review your code!
+See 'Secure Programming HOWTO'
+(https://dwheeler.com/secure-programs) for more information.

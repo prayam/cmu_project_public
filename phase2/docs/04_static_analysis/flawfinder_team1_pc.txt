@@ -1,0 +1,72 @@
+Flawfinder version 2.0.17, (C) 2001-2019 David A. Wheeler.
+Number of rules (primarily dangerous function names) in C/C++ ruleset: 222
+Examining ./MFCApplication1/resource.h
+Examining ./MFCApplication1/pch.h
+Examining ./MFCApplication1/pch.cpp
+Examining ./MFCApplication1/MFCApplication1.cpp
+Examining ./MFCApplication1/ProtocolDef.h
+Examining ./MFCApplication1/MFCApplication1.h
+Examining ./MFCApplication1/Common/NetworkManager.cpp
+Examining ./MFCApplication1/Common/Protocol/MyProtocol.h
+Examining ./MFCApplication1/Common/Protocol/ProtocolManager.h
+Examining ./MFCApplication1/Common/Protocol/BaseProtocol.cpp
+Examining ./MFCApplication1/Common/Protocol/MyProtocol.cpp
+Examining ./MFCApplication1/Common/Protocol/Msg/protocolLogin.pb.cc
+Examining ./MFCApplication1/Common/Protocol/Msg/protocolLogin.pb.h
+Examining ./MFCApplication1/Common/Protocol/ProtocolManager.cpp
+Examining ./MFCApplication1/Common/Protocol/BaseProtocol.h
+Examining ./MFCApplication1/Common/TcpSendRecvJpeg.h
+Examining ./MFCApplication1/Common/NetworkTCP.h
+Examining ./MFCApplication1/Common/NetworkManager.h
+Examining ./MFCApplication1/Common/TcpSendRecvJpeg.cpp
+Examining ./MFCApplication1/Common/NetworkTCP.cpp
+Examining ./MFCApplication1/MFCApplication1Dlg.cpp
+Examining ./MFCApplication1/targetver.h
+Examining ./MFCApplication1/MFCApplication1Dlg.h
+Examining ./MFCApplication1/framework.h
+
+FINAL RESULTS:
+
+./MFCApplication1/Common/NetworkTCP.cpp:607:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+./MFCApplication1/Common/NetworkTCP.cpp:662:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+./MFCApplication1/Common/Protocol/Msg/protocolLogin.pb.cc:2059:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+./MFCApplication1/Common/Protocol/ProtocolManager.cpp:53:  [2] (buffer) memcpy:
+  Does not check for buffer overflows when copying to destination (CWE-120).
+  Make sure destination can always hold the source data.
+./MFCApplication1/ProtocolDef.h:59:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+./MFCApplication1/ProtocolDef.h:67:  [2] (buffer) char:
+  Statically-sized arrays can be improperly restricted, leading to potential
+  overflows or other issues (CWE-119!/CWE-120). Perform bounds checking, use
+  functions that limit length, or ensure that the size is larger than the
+  maximum possible length.
+
+ANALYSIS SUMMARY:
+
+Hits = 6
+Lines analyzed = 7171 in approximately 0.08 seconds (92448 lines/second)
+Physical Source Lines of Code (SLOC) = 5685
+Hits@level = [0]  64 [1]   0 [2]   6 [3]   0 [4]   0 [5]   0
+Hits@level+ = [0+]  70 [1+]   6 [2+]   6 [3+]   0 [4+]   0 [5+]   0
+Hits/KSLOC@level+ = [0+] 12.3131 [1+] 1.05541 [2+] 1.05541 [3+]   0 [4+]   0 [5+]   0
+Dot directories skipped = 1 (--followdotdir overrides)
+Minimum risk level = 1
+
+Not every hit is necessarily a security vulnerability.
+You can inhibit a report by adding a comment in this form:
+// flawfinder: ignore
+Make *sure* it's a false positive!
+You can use the option --neverignore to show these.
+
+There may be other security vulnerabilities; review your code!
+See 'Secure Programming HOWTO'
+(https://dwheeler.com/secure-programs) for more information.
