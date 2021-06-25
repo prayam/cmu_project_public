@@ -70,6 +70,7 @@ do
         FACE_DB_PATH=./tartan_faces.db
         SQL_STRING="insert into faces (names_id, face) values ('${IDX}', (readfile('${DST_FILE}')));"
         sqlite3 ${FACE_DB_PATH} "${SQL_STRING}"
+        echo ${IDX}
         IDX=`expr ${IDX} + 1`
         SQL_STRING2="insert into names (name) values('3ed0b77fde1534148a1c6afe01debcbf');"
         sqlite3 ${FACE_DB_PATH} "${SQL_STRING2}"
