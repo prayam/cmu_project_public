@@ -1,3 +1,43 @@
+
+Vector tags
+=================================
+realistic
+ | [CLIENT] - can attack with client in hand
+ | [SERVER] - can attack with server in hand
+ | [SERVERCLIENT] - can attack with both in hand
+ v [SOURCE] - can attack with source exposed
+unrealistic
+
+Severity tags
+=================================
+trivial
+ | [BUG] - problematic but fail to find real impact 
+ | [HANG] - infinity loop, into a wrong state
+ | [CRASH] - segment fault, die
+ v [EXPLOITABLE] - can be pen-tested
+severe
+
+Approach tags
+=================================
+manually
+ | [CODEREVIEW] - review code itself
+ | [DESIGNREVIEW] - review document or code
+ | [FUZZING] - use fuzzing tools
+ v [STATIC] - use static tools
+automatically
+
+Exploit technique tags
+=================================
+[SQLINJECTION] - usually done on the client
+[BUFFEROVERFLOW] - buffer overflow
+[FORMATSTRING] - mainly used for leaking stack
+[KEYREVEALED] - extract secure data using key
+[SNIFFING] - sniff on the network
+[SPOOFING] - man in the middle attack
+[BRUTEFORCE] - try all possible cases
+
+---
+
 06/23
 V01) insert a arbitrary id/password to DB
 	Compromise Sequence
