@@ -300,7 +300,7 @@ V06) Weak Passwords that Enable Brute Force Attacks
 				...
 			}
 
-V07) Login SQL Injection
+V07) SQL Injection for Login
 	Compromise Sequence
 		1. Send SQL injection message to server like below:
 			>>> import socket
@@ -315,7 +315,7 @@ V07) Login SQL Injection
 			\x30\x30 : 00
 		
 	Vulnerabilities
-		V07-1. The server doesn't check id/pw valition from client, so attacker can login with SQL injection.
+		V07-1. The server doesn't validate ID/PW from client, so attacker can login with SQL injection.
 			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
 
 	Approach
