@@ -257,3 +257,45 @@ V05) Unintentional handling of the protocol message
 				unsigned char payload[0];
 			} MyPacket;
 			#pragma pack(pop)
+
+6/25
+V06) Weak Passwords that Enable Brute Force Attacks
+	Compromise Sequence
+		1. Brute Force Attack of Password
+		
+	Vulnerabilities
+		V06-1. Weak Passwords that Enable Brute Force Attacks
+			CWE-521: Weak Password Requirements
+
+	Approach
+		1. Check the source codes of the client related in the password. We found that the password policy is 1~10 Random Alpha/Numeric. There is no minimum password length. When the length of password is less than 6, it has 56,800,235,584 combinations. It takes 1.10 hours or 0.05 days to crack the password. (reference: https://tmedweb.tulane.edu/content_open/bfcalc.php?uc=0&lc=0&nu=0&sc=0&ran=6&rans=0&dict=0)
+			<MFCApplication1Dlg.cpp>	
+			BOOL CMFCApplication1Dlg::OnInitDialog()
+			{
+				...
+				m_EditID.SetLimitText(10);
+				m_EditPW.SetLimitText(10);
+				...
+				return TRUE;
+			}
+
+			void CMFCApplication1Dlg::OnBnClickedButtonLogin() // click login button
+			{
+				CString id;
+				CString pw;
+				m_EditID.GetWindowTextW(id);
+				m_EditPW.GetWindowTextW(pw);
+				if (id.IsEmpty() || checkIDPW(id) == false || pw.IsEmpty() || checkIDPW(pw) == false)
+				{
+					AfxMessageBox(_T("Please enter a valid ID and PW. (Alphabet, numeric only)"));
+					return;
+				}
+				...
+				// send login ID, PW
+				string ids = string(CT2CA(id));
+				string pws = string(CT2CA(pw));
+				CLoginProtocol login(ids, pws);
+				mNetworkManager->send_packet(login);
+				SetTimer(REQ_TIMEOUT_TIMER, 5000, NULL);
+				...
+			}
