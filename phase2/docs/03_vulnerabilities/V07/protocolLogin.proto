@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package protocol_msg;
+
+message LoginMsg {
+	string user_id = 1;
+	string password = 2;
+}
