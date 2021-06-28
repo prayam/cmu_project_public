@@ -513,7 +513,7 @@ V08) Memory leakeage in the 'get_a_packet' function
 				...
 			}
 
-V09) Extraction of face image data and name used by the face recog. AI engine
+V09) Extraction of name and face image data used by the face recog. AI engine
 	Compromise Sequence
 		1. Find AES key from file which has name "secret.key"
 		2. Extract data from tartan_face.db
