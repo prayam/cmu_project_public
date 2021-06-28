@@ -1,40 +1,46 @@
 
-Vector tags
-=================================
+Vector (what attacker obtained)
+...............................
 realistic
- | [CLIENT] - can attack with client in hand
- | [SERVER] - can attack with server in hand
- | [SERVERCLIENT] - can attack with both in hand
- v [SOURCE] - can attack with source exposed
+ | [BASICINFO] - can attack only with server ip, port
+ | [CLIENT/BINARY] - can attack with client binary exposed *
+ | [CLIENT/SOURCE] - can attack with client source exposed
+ | [SERVER/REMOTE] - can attack with server accessible
+ | [SERVER/PHYSICAL] - can attack with server physically obtained
+ | [SERVER/BINARY] - can attack with server binary exposed *
+ v [SERVER/SOURCE] - can attack with server source exposed
 unrealistic
 
-Severity tags
-=================================
+(*: through binary reversing using tools such as IDA-pro, Ghidra)
+
+Severity (vulnerability impact)
+...............................
 trivial
- | [BUG] - problematic but fail to find real impact
- | [HANG] - infinity loop, into a wrong state
- | [CRASH] - segment fault, die
- v [EXPLOITABLE] - can be pen-tested
+ | [ASSERT] - causes intended die but damages on availability
+ | [BUG] - is problematic but no real impact is found
+ | [HANG] - gets into a wrong state e.g. infinity loop
+ | [CRASH] - causes e.g. unexpectedly segment fault or die
+ v [EXPLOIT] - is exploitable, so can be pen-tested
 severe
 
-Approach tags
-=================================
-manually
- | [CODEREVIEW] - review code itself
- | [DESIGNREVIEW] - review document or code
- | [FUZZING] - use fuzzing tools
- v [STATIC] - use static tools
-automatically
+Approach (how we found the vulnerability)
+.........................................
+manual
+ | [REVIEW/CODE] - done by reviewing code itself
+ | [REVIEW/DESIGN] - done by reviewing documents or code
+ | [FUZZING] - done by running fuzzing tools
+ v [STATIC] - done by running static analysis tools
+toolly
 
-Exploit technique tags
-=================================
-[SQLINJECTION] - usually done on the client
-[BUFFEROVERFLOW] - buffer overflow
-[FORMATSTRING] - mainly used for leaking stack
-[KEYREVEALED] - extract secure data using key
-[SNIFFING] - sniff on the network
-[SPOOFING] - man in the middle attack
-[BRUTEFORCE] - try all possible cases
+Exploit (named technique)
+.........................
+[SQLINJECTION] - for by-passing authentication
+[OVERFLOW] - reading or writing beyond ligitimate area
+[FORMATSTRING] - mainly used for leaking data on the stack
+[PLAINKEY] - decrypting secure data using the plain key
+[SNIFFING] - sniffing packets over the network
+[SPOOFING] - so-called, man in the middle attack
+[BRUTEFORCE] - trying all possible input
 
 ---
 
