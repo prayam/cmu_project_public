@@ -11,7 +11,7 @@ unrealistic
 Severity tags
 =================================
 trivial
- | [BUG] - problematic but fail to find real impact 
+ | [BUG] - problematic but fail to find real impact
  | [HANG] - infinity loop, into a wrong state
  | [CRASH] - segment fault, die
  v [EXPLOITABLE] - can be pen-tested
@@ -51,7 +51,7 @@ V01) insert a arbitrary id/password to DB
 
 	Approach
 		V01-1.
-			From install guide(tartan_install.sh), we found some db files are installed. 
+			From install guide(tartan_install.sh), we found some db files are installed.
 				$ cat tartan_install.sh
 				....
 				install tartan*.db /usr/local/tartan/
@@ -85,7 +85,7 @@ V01) insert a arbitrary id/password to DB
 									  "INSERT INTO user VALUES(2, 'lg', '078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1' ,2);";
 					...
 				}
-				
+
 				< auth.cpp >
 				int CAuth::login(string id, string passwd)
 				{
@@ -155,15 +155,15 @@ V03) exposed user credentials in the server log
 	Compromise Sequence
 		1. start server and trace the logs ({git_repo_root}/LgFaceRecDemoTCP_Jetson_NanoV2/log.sh)
 		2. attempt to login
-		3. the logs show the user credentials including password like below.	
+		3. the logs show the user credentials including password like below.
 			Jun 23 04:17:54 LgFaceRecProject LgFaceRecDemoTCP_Jetson_NanoV2[7447]: ACCOUNT=user PASSWORD=user
 			Jun 23 04:17:54 LgFaceRecProject LgFaceRecDemoTCP_Jetson_NanoV2[7447]:  id:3  account:user, passwd:04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb, privilege:2
 			Jun 23 04:17:54 LgFaceRecProject LgFaceRecDemoTCP_Jetson_NanoV2[7447]: OK You're a valid user : privilege=2
-		
+
 	Vulnerabilities
 		V03-1. the logging information exposes too much information
 			CWE-532: Insertion of Sensitive Information into Log File https://cwe.mitre.org/data/definitions/532.html
-		
+
 	Approach
 		V03-1. just monitoring the log. we have no idea to find this vulnerability.
 
@@ -182,7 +182,7 @@ V04) infinite loop in the NetworkTCP.cpp
 			with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 				s.connect((HOST, PORT))
 				s.sendall(b'Hello, world')
-		
+
 	Vulnerabilities
 		V04-1. infinite loop in the ReadDataTcp function. because it doesn't handle the return value of 'recv' function correctly. it causes the denial of service.
 			CWE-253: Incorrect Check of Function Return Value https://cwe.mitre.org/data/definitions/253.html
@@ -197,16 +197,16 @@ V04) infinite loop in the NetworkTCP.cpp
 				When a stream socket peer has performed an orderly shutdown, the return value will be  0  (the
 				traditional "end-of-file" return).
 				...
-				
+
 			But in the source codes, there is no handling of the return 0 of the recv function.
-			So if 'length' param is more than 0 and the recv returns 0 by disconnecting of the peer, the for loop is infinite. 
+			So if 'length' param is more than 0 and the recv returns 0 by disconnecting of the peer, the for loop is infinite.
 				< NetworkTCP.cpp >
 				ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length)
 				{
 					...
 					for (size_t i = 0; i < length; i += bytes)
 					{
-						if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1) 
+						if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1)
 						{
 							return (-1);
 						}
@@ -231,10 +231,10 @@ V05) Unintentional handling of the protocol message
 			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			>>> s.connect(('192.168.0.228', 50000))
 			>>> s.sendall(b'\x53\x42\x31\x54\x1b\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send login protocol message with id:pass=admin:lg
-			
+
 		2. logout confirm by the statement below
 			>>> s.close()
-			
+
 		3. <NG case> execute python statements below. and login is not succeeded.
 			>>> import time
 			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -242,17 +242,17 @@ V05) Unintentional handling of the protocol message
 			>>> s.sendall(b'\x53\x42\x31\x54') # send preamble "SB1T" 1st
 			>>> time.sleep(1) # wait
 			>>> s.sendall(b'\x1b\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send remain payload to login
-	
+
 	Vulnerabilities
 		V05-1. The length parameter is set abnormally in case of sending the preamble "SB1T" only
 			CAPEC-494: TCP Fragmentation https://capec.mitre.org/data/definitions/494.html
-		
+
 	Approach
-		V05-1. 
+		V05-1.
 			When receiving the 4bytes "SB1T" only and entering "if (i==0)" statement, the "MyPacket *p" is not filled enough.
 			Caller initializes the all memory pointing of data to zero. So in this case, only p->hdr.head is written to the data of the received packet and others are zero.
 			Finally, my_packet_size is changed to 0 and the next receiving data is not parsed correctly. And then keep looping until receiving the size of the value of 'length' input param.
-			
+
 			< NetworkTCP.cpp >
 			ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length) // all memory pointing of data is zero. length is PACKET_MAX_BUFFER_SIZE (=1024 * 1024)
 			{
@@ -269,7 +269,7 @@ V05) Unintentional handling of the protocol message
 					accumulated+=bytes;
 					if (i==0) {
 						MyPacket *p=(MyPacket*)data; // data is "SB1T\0\0\0\0\0\0\0...\0".
-						printf("max packet length=%zu received=%zu packet_length=%d timestamp=%u msgtype=%d\n", 
+						printf("max packet length=%zu received=%zu packet_length=%d timestamp=%u msgtype=%d\n",
 									length, bytes, p->hdr.size , p->hdr.timestamp, p->hdr.msgtype);
 						if (p->hdr.head[0]=='S' && p->hdr.head[1]=='B' && p->hdr.head[2]=='1' && p->hdr.head[3]=='T') {
 							my_packet_size=p->hdr.size; // p->hdr.size is 0
@@ -282,7 +282,7 @@ V05) Unintentional handling of the protocol message
 				}
 				return(length);
 			}
-			
+
 			< ProtocolDef.h >
 			#pragma pack(push, 1)
 			typedef  struct {
@@ -302,14 +302,14 @@ V05) Unintentional handling of the protocol message
 V06) Weak Passwords that Enable Brute Force Attacks
 	Compromise Sequence
 		1. Brute Force Attack of Password
-		
+
 	Vulnerabilities
 		V06-1. Weak Passwords that Enable Brute Force Attacks
-			CWE-521: Weak Password Requirements
+			CWE-521: Weak Password Requirements https://cwe.mitre.org/data/definitions/521.html
 
 	Approach
 		1. Check the source codes of the client related in the password. We found that the password policy is 1~10 Random Alpha/Numeric. There is no minimum password length. When the length of password is less than 6, it has 56,800,235,584 combinations. It takes 1.10 hours or 0.05 days to crack the password. (reference: https://tmedweb.tulane.edu/content_open/bfcalc.php?uc=0&lc=0&nu=0&sc=0&ran=6&rans=0&dict=0)
-			<MFCApplication1Dlg.cpp>	
+			<MFCApplication1Dlg.cpp>
 			BOOL CMFCApplication1Dlg::OnInitDialog()
 			{
 				...
@@ -353,10 +353,10 @@ V07) SQL Injection for Login
 			\x12 : password
 			\x02 : password length
 			\x30\x30 : 00
-		
+
 	Vulnerabilities
 		V07-1. The server doesn't validate ID/PW from client, so attacker can login with SQL injection.
-			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') https://cwe.mitre.org/data/definitions/89.html
 
 	Approach
 		1. Check the login source codes of the client and server. The client code validates ID/PW input, but the server does not.
@@ -398,12 +398,12 @@ V07) SQL Injection for Login
 					string user_id = 1;
 					string password = 2;
 				}
-			
+
 			2-2. build python module for message
 				$ sudo apt install protobuf-compiler
 				$ sudo pip install protobuf
 				$ protoc -I="./" --python_out="./" protocolLogin.proto
-			
+
 			2-3. make SQL injection code using protobuf
 				<login.py>
 				# -*- coding: utf-8 -*-
@@ -423,6 +423,94 @@ V07) SQL Injection for Login
 
 				header = b'\x53\x42\x31\x54\x21\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00'	# preamble + size + timestamp + msgtype
 				s.sendall(header + msg)
-			
+
 			2-4. send this message to server
 				$ python3 login.py
+
+
+6/28
+V08) Memory leakeage in the 'get_a_packet' function
+	Compromise Sequence
+		1. Operate run mode
+		2. Check the memory manager of the client system whether or not the occupation is increased.
+
+	Vulnerabilities
+		V08-1. The 'get_a_packet' function doesn't free the structure of the paresed received packet after use it.
+			CWE-401: Missing Release of Memory after Effective Lifetime https://cwe.mitre.org/data/definitions/401.html
+
+	Approach
+		1. The occupation of the memory usage of the client program is increased continuously during the operation of system.
+		2. Check the memory leakeage in source codes of the client program. The 'create_protocol_instance' function allocates the new memory. But the 'get_a_packet' function doesn't free the memory after the use. You can check the 'WS(K)' field of "Get-Process MFCApplication1" command of PowerShell.
+			< Memory Check command in PowerShell>
+			PS C:\> Get-Process MFCApplication1
+
+			Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
+			-------  ------    -----      -----     ------     --  -- -----------
+				249      17     8684      29052      11.98  17276   1 MFCApplication1
+
+			< ProtocolManager.cpp >
+			CBaseProtocol *
+			CProtocolManager::create_protocol_instance(MsgReq id)
+			{
+				CBaseProtocol *cpkt = nullptr;
+				switch (id)
+				{
+					case MSG_LOGIN:
+						cpkt = new CLoginProtocol();
+						break;
+					case MSG_IMAGE:
+						cpkt = new CImageProtocol();
+						break;
+					case MSG_CONTROL_MODE:
+						cpkt = new CControlModeProtocol();
+						break;
+					case MSG_SERVER_SETTING:
+						cpkt = new CServerSettingProtocol();
+						break;
+					case MSG_VIDEO_FILE_LIST:
+						cpkt = new CVideoFileListProtocol();
+						break;
+					case MSG_START_LEARNING_MODE:
+						cpkt = new CLearningModeProtocol();
+						break;
+					case MSG_ACK:
+						cpkt = new CAckProtocol();
+						break;
+					default:
+						break;
+				}
+				return cpkt; // return newly allocated memory
+			}
+
+			CBaseProtocol *CProtocolManager::parse_packet(MyPacket *ppkt) {
+				CBaseProtocol *cpkt = nullptr;
+				...
+				if (ppkt->hdr.head[0]=='S' && ppkt->hdr.head[1]=='B' && ppkt->hdr.head[2]=='1' && ppkt->hdr.head[3]=='T' )
+				{
+					...
+					cpkt=create_protocol_instance((MsgReq)ppkt->hdr.msgtype); // call create_protocol_instance function
+					...
+				}
+				return cpkt;
+			}
+
+			< NetworkManager.cpp >
+			bool NetworkManager::get_a_packet(Mat* pImage)
+			{
+				...
+				if (ret <= PACKET_MAX_BUFFER_SIZE && ret > 0)
+				{
+					CProtocolManager prot_man;
+					CBaseProtocol* pbase = dynamic_cast<CBaseProtocol*>(prot_man.parse_packet((MyPacket*)buff)); // call parse_packet function and get a newly allocated memory
+					... // theer is no 'delete' keyword in order to free pbase.
+				}
+				...
+			}
+
+V09)
+	Compromise Sequence
+
+	Vulnerabilities
+		V09-1.
+
+	Approach
