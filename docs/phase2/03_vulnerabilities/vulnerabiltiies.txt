@@ -440,13 +440,13 @@ V08) Memory leakeage in the 'get_a_packet' function
 
 	Approach
 		1. The occupation of the memory usage of the client program is increased continuously during the operation of system.
-		2. Check the memory leakeage in source codes of the client program. The 'create_protocol_instance' function allocates the new memory. But the 'get_a_packet' function doesn't free the memory after the use. You can check the 'WS(K)' field of "Get-Process MFCApplication1" command of PowerShell.
-			< Memory Check command in PowerShell>
-			PS C:\> Get-Process MFCApplication1
+		2. Check the memory leakeage in source codes of the client program. The 'create_protocol_instance' function allocates the new memory. But the 'get_a_packet' function doesn't free the memory after the use. You can check the 'PagedMemorySize64' field of "Get-Process MFCApplication1" command of PowerShell.
+			< Memory Check command in PowerShell> - PagedMemorySize64 (=The amount of memory, in bytes, allocated in the virtual memory paging file for the associated process. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process.pagedmemorysize64?view=net-5.0)
+			PS C:\> Get-Process MFCApplication1 | select PagedMemorySize64, ProcessName
 
-			Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id  SI ProcessName
-			-------  ------    -----      -----     ------     --  -- -----------
-				249      17     8684      29052      11.98  17276   1 MFCApplication1
+			PagedMemorySize64 ProcessName
+			----------------- -----------
+					 14893056 MFCApplication1
 
 			< ProtocolManager.cpp >
 			CBaseProtocol *
