@@ -522,6 +522,7 @@ V09) Extraction of name and face image data used by the face recog. AI engine
 
 	Vulnerabilities
 		V09-1. Storing password in an easy-to-find place and reuse an initial vector make it easy to decrypt Private Persoanl Infomation in database.
+			CWE-922: Insecure Storage of Sensitive Information https://cwe.mitre.org/data/definitions/922.html
 			CWE-257: Storing Passwords in a Recoverable Format https://cwe.mitre.org/data/definitions/257.html
 			CWE-323: Reusing a Nonce, Key Pair in Encryption https://cwe.mitre.org/data/definitions/323.html
 			CWE-321: Use of Hard-coded Cryptographic Key https://cwe.mitre.org/data/definitions/321.html
@@ -530,7 +531,7 @@ V09) Extraction of name and face image data used by the face recog. AI engine
 
 	Approach
 		1. Find 16byte data in /var/shinpark/secret.key which is guessed as the KEY used for AES encryption
-			$ hexdump secret.key
+			$ hexdump /var/shinpark/secret.key
 			0000000 3412 7856 bc9a f0de 5634 9a78 debc 12f0
 
 			$ hexdump -e '16/1 "%02x"' /var/shinpark/secret.key
