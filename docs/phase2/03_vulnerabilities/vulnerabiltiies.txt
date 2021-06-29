@@ -16,24 +16,25 @@ unrealistic
 Severity (vulnerability impact)
 ...............................
 trivial
- | [IMPL/ASSERT] - causes intended abort but damages on availability
- | [IMPL/BUG] - is problematic but no real impact is found
- | [IMPL/HANG] - gets into a wrong state e.g. infinity loop
- | [IMPL/CRASH] - causes e.g. unexpected segment fault or die
- | [IMPL/EXPLOIT] - is exploitable so can be pen-tested
- v [DESIGN/EXPLOIT] - is design flaw that is exploitable
+ | [ASSERT] - causes intended abort but damages on availability
+ | [BUG] - is problematic but no real impact is found
+ | [SLOWDOWN] - shows low performance
+ | [HANG] - gets into a wrong state e.g. infinity loop
+ | [CRASH] - causes e.g. unexpected segment fault or die
+ v [EXPLOIT] - is exploitable, other than availability impact
 severe
 
 Approach (how we found the vulnerability)
 .........................................
 manual
- | [REVIEW] - done by reviewing documents or code
+ | [REVIEW/CODE] - done by reviewing code itself
+ | [REVIEW/DESIGN] - done by reviewing documents or code
  | [FUZZING] - done by running fuzzing tools
  v [STATIC] - done by running static analysis tools
 toolly
 
-Exploit (techniques)
-....................
+Technique (exploit techniques)
+..............................
 [SQLINJECTION] - for by-passing authentication
 [BUFFEROVERFLOW] - reading or writing beyond ligitimate area
 [SIGNED-UNSIGNED] - wrong converting between signed and unsigned
@@ -42,11 +43,28 @@ Exploit (techniques)
 [SNIFFING] - sniffing packets over the network
 [SPOOFING] - so-called, man in the middle attack
 [BRUTEFORCE] - trying all possible input until success
+[NOREQUIED] - no special techniques required
 
----
+C.I.A.
+......
+[CONFIDENTIALITY] - compromises confidentaility
+[INTEGRITY] - compromises integrity
+[AVAILABILITY] - compromises availability
+
+
+
+
+
 
 06/23
 V01) insert a arbitrary id/password to DB
+----------------------------------------
+Vector 		[SERVER/ACCESS]
+Severity 	[EXPLOIT]
+Approach 	[REVIEW/DESIGN]
+Technique	[NOREQUIED]
+C.I.A.		[INTEGRITY]
+----------------------------------------
 	Vulnerabilities
 		V01-1. sqlite3 database files(tartan_faces.db, tartan_user.db) have no password. So it can be accessed and modified by an attacker.
 			CWE-916: Use of Password Hash With Insufficient Computational Effort https://cwe.mitre.org/data/definitions/916.html
