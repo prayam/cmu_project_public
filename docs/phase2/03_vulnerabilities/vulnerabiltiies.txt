@@ -512,9 +512,8 @@ V09) Extraction of name and face image data used by the face recog. AI engine
 	Vulnerabilities
 		V09-1. Storing password in an easy-to-find place and reuse an initial vector make it easy to decrypt Private Persoanl Infomation in database.
 			CWE-922: Insecure Storage of Sensitive Information https://cwe.mitre.org/data/definitions/922.html
-			CWE-257: Storing Passwords in a Recoverable Format https://cwe.mitre.org/data/definitions/257.html
-			CWE-323: Reusing a Nonce, Key Pair in Encryption https://cwe.mitre.org/data/definitions/323.html
 			CWE-321: Use of Hard-coded Cryptographic Key https://cwe.mitre.org/data/definitions/321.html
+			CWE-323: Reusing a Nonce, Key Pair in Encryption https://cwe.mitre.org/data/definitions/323.html
 			CWE-200: Exposure of Sensitive Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/200.html
 			CWE-359: Exposure of Private Personal Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/359.html
 
@@ -667,7 +666,57 @@ V10) the system cannot be operated on the big endian architectures
 				return(length);
 			}
 
-V11)
+V11) A sniffing attack is possible because the server and client connection and operation are normal even after changing certificates(CA & server) and Private key of server to Attacker's one.
+	Vulnerabilities
+		V10-1. By using Self-signed CA certificate and not performing integrity checks, an attacker could perform a Man-in-the-Middle Attack.
+			CWE-295: Improper Certificate Validation https://cwe.mitre.org/data/definitions/295.html
+			CWE-296: Improper Following of a Certificate's Chain of Trust https://cwe.mitre.org/data/definitions/296.html
+
+	Compromise Sequence
+		1. Creating new forgery Chain of Trust.
+		2. Replacing forged server private.pem, cert.pem and share forged ca-cert.pem between server and client.
+		3. TLS channel is successfully estabilished with forged certificate.
+
+	Analysis
+		1. After examining the "tartan_install.sh" script,
+			1-1. we can found the certificate and private key files in following location, not protected well.
+			$ ls -alF /var/shinpark/certs/
+
+			-rwxr-xr-x 1 root root 4502 Jun 28 02:39 ca-cert.pem*
+			-rwxr-xr-x 1 root root 3517 Jun 28 02:39 cert.pem*
+			-rwxr-xr-x 1 root root  227 Jun 28 02:39 private.pem*
+
+			1-2. Client Program has "certs" DIR, and also has "ca-cert.pem" file, both files are identical.
+			(SHA256: 1609531E2178A50FE0D31379C1959E9870B4AF4316395E5EEC52521EC4F844A3)
+
+			1-3. This certificate is presumed to be a ca (Root trust of certificate chain) used by the server and the client together.
+			1-4. The client uses "ca-cert.pem" to check the "cert.pem" passed from the server to perform server authentication.
+			1-5. But the server does not seem to perform authentication for the client.
+
+		2. Server Private Key "private.pem" is EC(Eliptic Curve) spec. using NIST CURVE: P-256.
+			We know server's private key, but that private key is an EC spec, so it's very hard to decrypt TLS communication channel.
+			(for examples, Wireshark tool can doing TLS communication decryption using server-private key, but only support RSA spec.)
+			Using EC key is good decision.
+
+		3. After examining of TLS client/server hello handshake using wireshark tool, we can find TLS1.3 is used for TLS communication.
+			A TLS1.3 channel cannot sniff even if the server private key is known and the server private key is RSA spec.
+			It's also good decision.
+
+		4. So, we try creating new forgery Chain of Trust (It's Attacker's certificate, so it's actually Untrusted).
+			4-1. Create forgery CA private key, self-signed CA certificate. It's "forgery CA certificate"
+			4-2. Create forgery Server private key and certificate which is signed using a forgery CA certificate.
+
+		5. Replacing forged server private.pem, cert.pem and share forged ca-cert.pem between server and client, TLS channel is successfully estabilished.
+
+		6. Man-in-the-Middle attack is possible using below scenario.
+			6-1. The attacker replaces the certificate used by the client with a forged certificate.
+			6-2. And induces the client to attempt to connect to the attacker's server. (ARP Spoofing, TLS handshake using forged cert)
+			6-3. The attacker's server try to connect to the server using the original Certificate. (normal TLS handshake)
+				a. Since the server does not authenticate the client, this attempt will succeed.
+				b. Even when the server authenticates the client, the connection can be successful by using the original certificate and key extracted from the client.
+			6-4. The attacker's server now relaying the client's request to the server, and sniff messages.
+
+V12)
 	Compromise Sequence
 
 	Vulnerabilities
