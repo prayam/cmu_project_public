@@ -1,27 +1,27 @@
 
 Vector (pathway, what attacker obtained)
 ........................................
-realistic
+high opportunity
  | [SERVERINFO] - can attack only with server ip, port
- | [NETWORK] - can attack over the network comminicating
+ | [NETWORK] - can attack over the network communicating
  | [CLIENT/BINARY] - can attack with client binary exposed *
  | [CLIENT/SOURCE] - can attack with client source exposed
  | [SERVER/ACCESS] - can attack with server accessible
  | [SERVER/BINARY] - can attack with server binary exposed *
  v [SERVER/SOURCE] - can attack with server source exposed
-unrealistic
+low opportunity
 (*: through binary reversing using tools such as IDA-pro, Ghidra)
 
 Phenomenon (phenomenon by the vulnerability)
 ............................................
-unnotable
+unrecognizable
  | [NA] - no special phenomenon by the vulnerability 
  | [SLOWDOWN] - gets into a low performance state
  | [HANG] - gets into an infinity loop
  | [WRONGSTATE] - doesn't response correctly
  | [ASSERT] - causes intended abort but damages on availability
  v [CRASH] - causes e.g. unexpected segment fault or die
-notable
+recognizable
 
 Approach (what we did to find the vulnerability)
 ................................................
@@ -36,14 +36,14 @@ Technique (exploit techniques)
 ..............................
 [SQLINJECTION] - for by-passing authentication
 [BUFFEROVERFLOW] - reading or writing beyond ligitimate area
-[SIGNUNSIGN] - using wrong converting between signed and unsigned
+[WRAPAROUND] - making use of unsinged type wraparound
 [FORMATSTRING] - mainly used for leaking data on the stack
 [REVEALEDKEY] - decrypting secure data using revealed keys
 [SNIFFING] - sniffing packets over the network
 [SPOOFING] - so-called, man in the middle attack
 [BRUTEFORCE] - trying all possible input until success
 [CRAFTPACKET] - crafting and sending a customized packet
-[TEMPERING] - modifying system components for a purpose
+[TAMPERING] - modifying system components for a purpose
 [NOSPECIFIED] - no special techniques specified
 
 CIA
@@ -63,7 +63,7 @@ V01) insert an arbitrary id/password to DB
 Vector 		[SERVER/ACCESS]
 Phenomenon	[NA]
 Approach 	[REVIEW/DESIGN]
-Technique	[TEMPERING]
+Technique	[TAMPERING]
 CIA			[INTEGRITY]
 ----------------------------------------
 	Vulnerabilities
@@ -401,7 +401,7 @@ Vector 		[SERVERINFO]
 Phenomenon	[NA]
 Approach 	[REVIEW/CODE]
 Technique	[SQLINJECTION]
-CIA			[INTEGRITY]
+CIA			[INTEGRITY][CONFIDENTIALITY]
 ----------------------------------------
 	Vulnerabilities
 		V07-1. The server doesn't validate ID/PW from client, so attacker can login with SQL injection.
@@ -753,8 +753,8 @@ V11) A sniffing attack is possible because the server and client connection and 
 Vector 		[SERVER/ACCESS]
 Phenomenon	[NA]
 Approach 	[REVIEW/DESIGN]
-Technique	[TEMPERING][SPOOFING]
-CIA			[INTEGRITY]
+Technique	[TAMPERING][SPOOFING][SNIFFING]
+CIA			[INTEGRITY][CONFIDENTIALITY]
 ----------------------------------------
 	Vulnerabilities
 		V10-1. By using Self-signed CA certificate and not performing integrity checks, an attacker could perform a Man-in-the-Middle Attack.
@@ -810,7 +810,7 @@ V12)Crash by Integer Underflow related in the packet size
 Vector 		[SERVERINFO]
 Phenomenon	[ASSERT]
 Approach 	[FUZZING]
-Technique	[CRAFTPACKET][SIGNUNSIGN]
+Technique	[CRAFTPACKET][WRAPAROUND]
 CIA			[AVAILABILITY]
 ----------------------------------------
 	Vulnerabilities
