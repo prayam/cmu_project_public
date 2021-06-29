@@ -35,7 +35,7 @@ toolly
 Technique (exploit techniques)
 ..............................
 [SQLINJECTION] - for by-passing authentication
-[BUFFEROVERFLOW] - reading or writing beyond ligitimate area
+[BUFFEROVERFLOW] - reading or writing beyond legitimate area
 [WRAPAROUND] - making use of unsinged type wraparound
 [FORMATSTRING] - mainly used for leaking data on the stack
 [REVEALEDKEY] - decrypting secure data using revealed keys
@@ -48,7 +48,7 @@ Technique (exploit techniques)
 
 CIA
 ...
-[CONFIDENTIALITY] - compromises confidentaility
+[CONFIDENTIALITY] - compromises confidentiality
 [INTEGRITY] - compromises integrity
 [AVAILABILITY] - compromises availability
 
@@ -748,7 +748,7 @@ CIA			[AVAILABILITY]
 				return(length);
 			}
 
-V11) A sniffing attack is possible because the server and client connection and operation are normal even after changing certificates(CA & server) and Private key of server to Attacker's one.
+V11) A spoofing attack is possible because the server and client connection and operation are normal even after changing certificates(CA & server) and Private key of server to Attacker's one.
 ----------------------------------------
 Vector 		[SERVER/ACCESS]
 Phenomenon	[NA]
