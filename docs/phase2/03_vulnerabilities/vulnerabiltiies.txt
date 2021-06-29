@@ -2,11 +2,11 @@
 Vector (what attacker obtained)
 ...............................
 realistic
- | [BASICINFO] - can attack only with server ip, port
+ | [SERVERINFO] - can attack only with server ip, port
+ | [NETWORK] - can attack over the network comminicating
  | [CLIENT/BINARY] - can attack with client binary exposed *
  | [CLIENT/SOURCE] - can attack with client source exposed
- | [SERVER/REMOTE] - can attack with server accessible
- | [SERVER/PHYSICAL] - can attack with server physically obtained
+ | [SERVER/ACCESS] - can attack with server accessible
  | [SERVER/BINARY] - can attack with server binary exposed *
  v [SERVER/SOURCE] - can attack with server source exposed
 unrealistic
@@ -16,7 +16,7 @@ unrealistic
 Severity (vulnerability impact)
 ...............................
 trivial
- | [ASSERT] - causes intended die but damages on availability
+ | [ASSERT] - causes intended abort but damages on availability
  | [BUG] - is problematic but no real impact is found
  | [HANG] - gets into a wrong state e.g. infinity loop
  | [CRASH] - causes e.g. unexpectedly segment fault or die
@@ -32,15 +32,16 @@ manual
  v [STATIC] - done by running static analysis tools
 toolly
 
-Exploit (named technique)
-.........................
+Exploit (techniques)
+....................
 [SQLINJECTION] - for by-passing authentication
-[OVERFLOW] - reading or writing beyond ligitimate area
+[BUFFEROVERFLOW] - reading or writing beyond ligitimate area
+[SIGNED-UNSIGNED] - wrong converting between signed and unsigned
 [FORMATSTRING] - mainly used for leaking data on the stack
 [PLAINKEY] - decrypting secure data using the plain key
 [SNIFFING] - sniffing packets over the network
 [SPOOFING] - so-called, man in the middle attack
-[BRUTEFORCE] - trying all possible input
+[BRUTEFORCE] - trying all possible input until success
 
 ---
 
