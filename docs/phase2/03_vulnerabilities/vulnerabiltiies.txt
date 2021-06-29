@@ -10,22 +10,20 @@ realistic
  | [SERVER/BINARY] - can attack with server binary exposed *
  v [SERVER/SOURCE] - can attack with server source exposed
 unrealistic
-
 (*: through binary reversing using tools such as IDA-pro, Ghidra)
 
-Severity (vulnerability impact)
-...............................
-trivial
- | [ASSERT] - causes intended abort but damages on availability
- | [BUG] - is problematic but no real impact is found
- | [SLOW] - makes the system have low performance
+Phenomenon (phenomenon by the vulnerability)
+............................................
+unnotable
+ | [NA] - no special phenomenon by the vulnerability 
+ | [SLOWDOWN] - gets into a low performance state
  | [HANG] - gets into a wrong state e.g. infinity loop
- | [CRASH] - causes e.g. unexpected segment fault or die
- v [EXPLOIT] - is exploitable, other than availability damage
-severe
+ | [ASSERT] - causes intended abort but damages on availability
+ v [CRASH] - causes e.g. unexpected segment fault or die
+notable
 
-Approach (how we found the vulnerability)
-.........................................
+Approach (what we did to find the vulnerability)
+................................................
 manual
  | [REVIEW/CODE] - done by reviewing code itself
  | [REVIEW/DESIGN] - done by reviewing documents or code
@@ -45,8 +43,8 @@ Technique (exploit techniques)
 [BRUTEFORCE] - trying all possible input until success
 [NOREQUIED] - no special techniques required
 
-C.I.A.
-......
+CIA
+...
 [CONFIDENTIALITY] - compromises confidentaility
 [INTEGRITY] - compromises integrity
 [AVAILABILITY] - compromises availability
@@ -63,7 +61,7 @@ Vector 		[SERVER/ACCESS]
 Severity 	[EXPLOIT]
 Approach 	[REVIEW/DESIGN]
 Technique	[NOREQUIED]
-C.I.A.		[INTEGRITY]
+CIA			[INTEGRITY]
 ----------------------------------------
 	Vulnerabilities
 		V01-1. sqlite3 database files(tartan_faces.db, tartan_user.db) have no password. So it can be accessed and modified by an attacker.
