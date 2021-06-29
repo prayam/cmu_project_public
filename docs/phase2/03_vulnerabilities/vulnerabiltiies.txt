@@ -810,7 +810,7 @@ V12)Crash by Integer Underflow related in the packet size
 Vector 		[SERVERINFO]
 Phenomenon	[ASSERT]
 Approach 	[FUZZING]
-Technique	[CRAFTPACKET]
+Technique	[CRAFTPACKET][SIGNUNSIGN]
 CIA			[AVAILABILITY]
 ----------------------------------------
 	Vulnerabilities
