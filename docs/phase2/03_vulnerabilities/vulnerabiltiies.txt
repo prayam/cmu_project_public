@@ -18,10 +18,10 @@ Severity (vulnerability impact)
 trivial
  | [ASSERT] - causes intended abort but damages on availability
  | [BUG] - is problematic but no real impact is found
- | [SLOWDOWN] - shows low performance
+ | [SLOW] - makes the system have low performance
  | [HANG] - gets into a wrong state e.g. infinity loop
  | [CRASH] - causes e.g. unexpected segment fault or die
- v [EXPLOIT] - is exploitable, other than availability impact
+ v [EXPLOIT] - is exploitable, other than availability damage
 severe
 
 Approach (how we found the vulnerability)
@@ -57,7 +57,7 @@ C.I.A.
 
 
 06/23
-V01) insert a arbitrary id/password to DB
+V01) insert an arbitrary id/password to DB
 ----------------------------------------
 Vector 		[SERVER/ACCESS]
 Severity 	[EXPLOIT]
