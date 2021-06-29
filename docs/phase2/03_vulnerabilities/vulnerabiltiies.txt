@@ -305,7 +305,7 @@ V06) Weak Passwords that Enable Brute Force Attacks
 			CWE-521: Weak Password Requirements https://cwe.mitre.org/data/definitions/521.html
 
 	Compromise Sequence
-		1. Brute Force Attack of Password
+		1. Try all possible cases one by one until successfully login
 
 	Analysis
 		1. Check the source codes of the client related in the password. We found that the password policy is 1~10 Random Alpha/Numeric. There is no minimum password length. When the length of password is less than 6, it has 56,800,235,584 combinations. It takes 1.10 hours or 0.05 days to crack the password. (reference: https://tmedweb.tulane.edu/content_open/bfcalc.php?uc=0&lc=0&nu=0&sc=0&ran=6&rans=0&dict=0)
