@@ -1,4 +1,9 @@
 # Usage Examples
+
+## preconditions.
+    script working on Jetson Nano, TEAM1's project installed.
+    You have to specify "FACE_DB_PATH" before execute script
+
 ## name_decrypt.sh : decrypt user name
 > Usage : name_decrypt.sh (id_num:integer)
 ```

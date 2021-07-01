@@ -1,14 +1,14 @@
 # cmu_project
 
 ## folder
-* /docs : project documents
-    * /docs/phase1 : phase1 documents
-    * /docs/phase2 : phase2 documents
-* /source : project code
-    * /source/client : client code
-    * /source/server : server code
-    * /source/common : common code for server & client
-    * /source/checksec.sh : script for checking secure options in ELF binary
+* docs/ : project documents
+    * phase1/ : phase1 documents
+    * phase2/ : phase2 documents
+* source/ : project code
+    * client/ : client code
+    * server/ : server code
+    * common/ : common code for server & client
+    * checksec.sh : script for checking secure options in ELF binary
 
 ---
 ## terms
